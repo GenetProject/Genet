@@ -5,9 +5,7 @@ from typing import List
 from simulator.network_simulator.constants import BITS_PER_BYTE, BYTES_PER_PACKET, EVENT_TYPE_ACK, EVENT_TYPE_SEND
 from simulator.network_simulator.packet import Packet
 from simulator.network_simulator.link import Link
-from simulator.network_simulator.sender import SenderType, Sender
-from simulator.network_simulator.grouper import Grouper
-from simulator.network_simulator.noisy_sender import NoisySender
+from simulator.network_simulator.sender import SenderType
 
 USE_LATENCY_NOISE = False
 # USE_LATENCY_NOISE = True
@@ -22,8 +20,6 @@ class Network:
 
     def __init__(self, senders: List[SenderType], links: List[Link],
                  record_pkt_log: bool = False):
-        self.grouper = None
-        # self.grouper = Grouper(self, 10, 0.5)
         self.q = []
         self.cur_time = 0.0
         self.senders = senders
@@ -31,7 +27,6 @@ class Network:
         self.record_pkt_log = record_pkt_log
         self.pkt_log = []
         self.extra_delays = []  # time used to put packet onto the network
-        self.noisy_sender = NoisySender(-1, 0)
         self.queue_initial_packets()
 
     def queue_initial_packets(self):
@@ -40,8 +35,6 @@ class Network:
             sender.reset_obs()
 
             sender.schedule_send(True)
-        self.noisy_sender.register_network(self)
-        self.noisy_sender.schedule_send(True)
 
     def add_packet(self, pkt: Packet) -> None:
         """Add a packet to the packet event queue."""
@@ -80,7 +73,6 @@ class Network:
                 self.cur_time = end_time
                 break
             pkt = heapq.heappop(self.q)
-            self.noisy_sender.update(self.cur_time)
 
             self.cur_time = pkt.ts
             push_new_event = False
@@ -99,10 +91,7 @@ class Network:
             #                 sender.rate, dur, self.links[0].queue_size,
             #                 rto, sender.cwnd, sender.ssthresh, sender.rto,
             #                 int(sender.bytes_in_flight/BYTES_PER_PACKET),
-            #                 sender.pkt_loss_wait_time)# )
-            if pkt.sender.sender_id == -1 and pkt.event_type == EVENT_TYPE_ACK:
-                continue
-            # elif pkt.sender.sender_id == -1 and pkt.event_type == EVENT_TYPE_SEND:
+            #                 sender.pkt_loss_wait_time))
             if pkt.event_type == EVENT_TYPE_ACK:
                 sender = pkt.sender
                 if pkt.next_hop == len(self.links):
@@ -154,10 +143,7 @@ class Network:
                     #     noise = abs(random.uniform(0.0, 200) / 1000)
                     #     pkt.add_propagation_delay(noise)
                     pkt.next_hop += 1
-                    if self.grouper:
-                        push_new_event = self.grouper.group(pkt)
-                    else:
-                        push_new_event = True
+                    push_new_event = True
             elif pkt.event_type == EVENT_TYPE_SEND:  # in datalink
                 sender = pkt.sender
                 if pkt.next_hop == 0:
@@ -189,13 +175,8 @@ class Network:
                 #     noise = random.uniform(0.0, self.links[pkt.next_hop].trace.delay_noise) / 1000
                 #     pkt.add_propagation_delay(noise)
                 # pkt.add_transmission_delay(1 / self.links[0].get_bandwidth(self.cur_time))
-                try:
-                    if not self.links[pkt.next_hop].packet_enters_link(self.cur_time):
-                        pkt.drop()
-                except:
-                    print(pkt.next_hop)
-                    import pdb
-                    pdb.set_trace()
+                if not self.links[pkt.next_hop].packet_enters_link(self.cur_time):
+                    pkt.drop()
                 link_prop_latency, q_delay = self.links[pkt.next_hop].get_cur_latency(
                     self.cur_time)
                 pkt.add_propagation_delay(link_prop_latency)
@@ -205,12 +186,6 @@ class Network:
                 pkt.next_hop += 1
                 # if not pkt.dropped:
                 #     sender.queue_delay_samples.append(new_event_queue_delay)
-            else:
-                if self.grouper:
-                    self.grouper.update(self.cur_time)
-                    # import pdb
-                    # pdb.set_trace()
-            # print(len(self.grouper.buffer), self.grouper.count, pkt.ts - self.grouper.start_ts)
 
             if push_new_event:
                 heapq.heappush(self.q, pkt)

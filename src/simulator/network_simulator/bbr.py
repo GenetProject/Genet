@@ -183,7 +183,7 @@ class BBRSender(Sender):
         self.limited_by_cwnd = False
 
         self.init()
-        self.bbr_log = []
+        # self.bbr_log = []
 
     def init(self):
         # init_windowed_max_filter(filter=BBR.BtlBwFilter, value=0, time=0)
@@ -326,10 +326,6 @@ class BBRSender(Sender):
             self.cwnd = max(self.cwnd - packets_lost, 1)
         if self.packet_conservation:
             self.cwnd = max(self.cwnd, self.bytes_in_flight / BYTES_PER_PACKET + packets_delivered)
-        # if packets_lost:
-        #     print('new', self.cwnd, self.bytes_in_flight/ BYTES_PER_PACKET, packets_lost)
-            # import pdb
-            # pdb.set_trace()
 
     def on_enter_fast_recovery(self, pkt: BBRPacket):
         self.prior_cwnd = self.save_cwnd()
@@ -548,14 +544,14 @@ class BBRSender(Sender):
             return False
 
         # for debug purpose
-        tmp_cache = {}
-        for k, v in self.btlbw_filter.cache.items():
-            tmp_cache[k] = v * BITS_PER_BYTE / 1e6
-        self.bbr_log.append([self.get_cur_time(), self.pacing_gain, self.pacing_rate * BITS_PER_BYTE / 1e6,
-        self.cwnd_gain, self.cwnd, self.target_cwnd, self.prior_cwnd, self.btlbw * BITS_PER_BYTE / 1e6,
-        self.rtprop, self.full_bw * BITS_PER_BYTE / 1e6, self.state.value,
-        self.bytes_in_flight / BYTES_PER_PACKET, self.in_fast_recovery_mode,
-        self.rs.delivery_rate * BITS_PER_BYTE / 1e6, self.round_start, self.round_count, self.rto, self.exit_fast_recovery_ts, self.net.links[0].pkt_in_queue, self.conn_state.delivered, tmp_cache])
+        # tmp_cache = {}
+        # for k, v in self.btlbw_filter.cache.items():
+        #     tmp_cache[k] = v * BITS_PER_BYTE / 1e6
+        # self.bbr_log.append([self.get_cur_time(), self.pacing_gain, self.pacing_rate * BITS_PER_BYTE / 1e6,
+        # self.cwnd_gain, self.cwnd, self.target_cwnd, self.prior_cwnd, self.btlbw * BITS_PER_BYTE / 1e6,
+        # self.rtprop, self.full_bw * BITS_PER_BYTE / 1e6, self.state.value,
+        # self.bytes_in_flight / BYTES_PER_PACKET, self.in_fast_recovery_mode,
+        # self.rs.delivery_rate * BITS_PER_BYTE / 1e6, self.round_start, self.round_count, self.rto, self.exit_fast_recovery_ts, self.net.links[0].pkt_in_queue, self.conn_state.delivered, tmp_cache])
         return True
 
     def schedule_send(self, first_pkt: bool = False, on_ack: bool = False):

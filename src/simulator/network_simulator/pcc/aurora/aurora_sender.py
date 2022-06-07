@@ -129,7 +129,7 @@ class AuroraSender(Sender):
 
         if latency > 0.0:
             mi_duration = MI_RTT_PROPORTION * \
-                sender_mi.get("avg latency") #+ np.mean(self.net.extra_delays)
+                sender_mi.get("avg latency") + np.mean(self.net.extra_delays)
         else:
             mi_duration = 0
         return reward, mi_duration
