@@ -1,0 +1,9 @@
+[{
+    "min_bw": [0, 3.5],
+    "max_bw": [1, 5],
+    "bw_change_interval": [1, 4],
+    "link_rtt": [20, 30],
+    "buffer_thresh": [5, 10],
+    "duration": 330,
+    "weight": 1
+}]
