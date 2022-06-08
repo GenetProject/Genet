@@ -2,13 +2,14 @@
 
 set -e
 
-save_dir=/tank/zxxia/PCC-RL/results_1006/abr/new_trace_gen1
-video_size_file_dir=/tank/zxxia/clean-genet-abr/data/video_sizes/
-val_trace_dir=/tank/zxxia/clean-genet-abr/data/BO_stable_traces/test/val_FCC/
+save_dir=results_1006/abr
+video_size_file_dir=data/video_sizes
+val_trace_dir=data/val_FCC
+total_epoch=75000
 
 
 for seed in 10 20 30; do
-    python abr_simulator/pensieve/train.py  \
+    python src/simulator/abr_simulator/pensieve/train.py  \
         --save-dir ${save_dir}/${train_name}/seed_${seed} \
         --exp-name ${train_name} \
         --seed ${seed} \
@@ -17,9 +18,9 @@ for seed in 10 20 30; do
         --nagent 10 \
         cl1 \
         --val-trace-dir ${val_trace_dir} \
-        --config-files ../../config/abr/cl1/difficulty0.json \
-        ../../config/abr/cl1/difficulty1.json \
-        ../../config/abr/cl1/difficulty2.json \
-        ../../config/abr/cl1/difficulty3.json \
-        ../../config/abr/cl1/difficulty4.json
+        --config-files config/abr/cl1/difficulty0.json \
+        config/abr/cl1/difficulty1.json \
+        config/abr/cl1/difficulty2.json \
+        config/abr/cl1/difficulty3.json \
+        config/abr/cl1/difficulty4.json
 done
