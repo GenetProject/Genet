@@ -2,7 +2,6 @@
 
 set -e
 save_dir=../results
-
 exp_name=cl2
 total_step=720001
 pretrain_model_path=../../results_0826/udr_6/udr_start/seed_20/model_step_21600.ckpt

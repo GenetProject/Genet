@@ -1,4 +1,7 @@
-SAVE_DIR=../results
+#!/bin/bash
+
+set -e
+save_dir=../results
 exp_name=genet
 config_file=../../config/train/udr_large.json
 pretrain_model_path=../../results_0826/udr_6/udr_start/seed_20/model_step_21600.ckpt
@@ -6,7 +9,7 @@ pretrain_model_path=../../results_0826/udr_6/udr_start/seed_20/model_step_21600.
 for cc in bbr_old ; do
     for seed in 10 20 30; do
         save_dir=${SAVE_DIR}/genet_${cc}/seed_${seed}
-        CUDA_VISIBLE_DEVICES="" mpiexec -np 2 python genet_improved.py \
+        mpiexec -np 2 python genet_improved.py \
             --seed ${seed} \
             --heuristic ${cc} \
             --save-dir ${save_dir} \
