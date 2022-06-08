@@ -3,8 +3,8 @@
 set -e
 
 save_dir=results_1006/abr
-video_size_file_dir=data/video_sizes
-val_trace_dir=data/val_FCC
+video_size_file_dir=data/abr/video_sizes
+val_trace_dir=data/abr/val_FCC
 total_epoch=75000
 
 
