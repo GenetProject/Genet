@@ -106,7 +106,6 @@ venv.bak/
 .vim
 results_*
 results
-data
 figs
 src/simulator/aurora_tensorboard
 src/simulator/useless
