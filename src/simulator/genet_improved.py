@@ -4,6 +4,7 @@ import csv
 import glob
 import json
 import os
+os.environ['CUDA_VISIBLE_DEVICES'] = ""
 import subprocess
 import time
 import warnings
