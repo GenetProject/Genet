@@ -1,14 +1,14 @@
 #!/bin/bash
 
 set -e
-save_dir=../results
+save_dir=results/cc
 exp_name=cl2
 total_step=720001
 pretrain_model_path=../../results_0826/udr_6/udr_start/seed_20/model_step_21600.ckpt
-config_file=../../config/train/udr_7_dims_0826/udr_large.json
+config_file=config/train/udr_7_dims_0826/udr_large.json
 
 for seed in 10 20 30;do
-    mpiexec -np 2 python train.py \
+    mpiexec -np 2 python src/simulator/train.py \
         --exp-name ${exp_name} \
         --save-dir ${save_dir}/${exp_name}/seed_${seed} \
         --seed ${seed} \
