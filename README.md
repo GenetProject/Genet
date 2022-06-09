@@ -50,8 +50,8 @@ bash install.sh
 ## Unseen synthetic environments (Figure 9)
 
 ### ABR
-```
-cd genet_fig_upload/fig9
+```bash
+cd fig_reproduce/fig9
 bash run.sh
 # Please wait for 5 minutes to let the testing output finish writing.
 # Please find genet_fig_upload/fig9/fig9_abr.png
@@ -60,10 +60,11 @@ bash run.sh
 ### Reproduce Figure 13
 
 ```bash
-cd genet_fig_upload/fig13
+cd fig_reproduce/fig13
 bash run.sh
-# Please wait for 5 minutes to let the testing output finish writing
-# Please find genet_fig_upload/fig13/fig13_abr_fcc.png and genet_fig_upload/fig13/fig13_abr_norway.png
+# Please wait for 15 minutes to let the testing output finish writing
+# Please find genet_fig_upload/fig13/fig13_abr_fcc.png and 
+# genet_fig_upload/fig13/fig13_abr_norway.png
 ```
 
 

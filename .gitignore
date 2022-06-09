@@ -119,3 +119,4 @@ src/simulator/tests
 __MACOSX
 .ccls-cache
 .ccls
+.idea
