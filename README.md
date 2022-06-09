@@ -49,60 +49,29 @@ bash install.sh
 
 ## Unseen synthetic environments (Figure 9)
 
+### ABR
 ```
-cd fig9
+cd genet_fig_upload/fig9
 bash run.sh
-# plz wait for 5 minutes to let the testing output finish writing
+# Please wait for 5 minutes to let the testing output finish writing.
+# Please find genet_fig_upload/fig9/fig9_abr.png
 ```
 
-Calculate and print the mean reward and std_of_mean.
-```
-python plot_results.py
-# output: ['sim_udr_1: 1.494% 0.0049', 'sim_udr_2: 1.625% 0.0034', 'sim_udr_3: 1.692% 0.0402', 'sim_adr: 2.055% 0.0102']
-```
+### Reproduce Figure 13
 
-Put the above output results into bar plot.
-```
-python test_on_sync_bar_plot.py
-```
-
-### Reproduce Figure 13 FCC
-
-```
-cd fig13_fcc
+```bash
+cd genet_fig_upload/fig13
 bash run.sh
-# plz wait for 5 minutes to let the testing output finish writing
-```
-
-Calculate the mean reward and std_of_mean
-```
-python plot_results.py
-# output: ['sim_udr_real: 0.829% 0.0075', 'sim_udr_1: 0.711% 0.0146', 'sim_udr_2: 0.625% 0.0062', 'sim_udr_3: 0.747% 0.0069', 'sim_adr: 0.866% 0.0094']
-```
-
-Put the printed results into bar plot
-```
-python sim_real_world_plot.py
-```
-
-### ABR Norway
-```
-cd fig13_norway
-bash run.sh
-# Pease wait for 5 minutes to let the testing output finish writing
+# Please wait for 5 minutes to let the testing output finish writing
+# Please find genet_fig_upload/fig13/fig13_abr_fcc.png and genet_fig_upload/fig13/fig13_abr_norway.png
 ```
 
 
-Calculate the mean reward and std_of_mean
-```
-python plot_results.py
-# output: ['sim_udr_real: 0.487% 0.0204', 'sim_udr_1: 0.009% 0.0294', 'sim_udr_2: 0.372% 0.0198', 'sim_udr_3: 0.368% 0.0193', 'sim_adr: 0.585% 0.0152']
-```
-
-Put the printed results into bar plot
-```
-python sim_real_world_plot.py
-```
+<!-- Calculate the mean reward and std_of_mean -->
+<!-- ```bash -->
+<!-- python plot_results.py -->
+<!-- # output: ['sim_udr_real: 0.487% 0.0204', 'sim_udr_1: 0.009% 0.0294', 'sim_udr_2: 0.372% 0.0198', 'sim_udr_3: 0.368% 0.0193', 'sim_adr: 0.585% 0.0152'] -->
+<!-- ``` -->
 
 ## Learning curves (Figure 18)
 ### ABR
@@ -124,13 +93,6 @@ bash src/drivers/cc/train_cl3.sh
 # TODO: add plot scripts
 ```
 
-<!-- - Add `src` to `$PYTHONPATH` by running -->
-<!--  -->
-<!--     ```bash -->
-<!--     cd PCC-RL -->
-<!--     export PYTHONPATH="${PYTHONPATH}:$(pwd)/src" -->
-<!--     ``` -->
-
 <!-- ## Traces -->
 <!--  -->
 <!-- ### Real Traces -->
@@ -148,33 +110,6 @@ bash src/drivers/cc/train_cl3.sh
 <!--  -->
 <!-- The configurations are stored at `Genet/config/train` -->
 
-<!-- ## Training -->
-<!--  -->
-<!-- ### udr training -->
-<!--  -->
-<!-- ```bash -->
-<!-- cd src/simulator -->
-<!-- # run on CPU only if CUDA & GPU(s) are installed and use 2 workers -->
-<!-- CUDA_VISIBLE_DEVICES="" mpiexec -np 2 python train_rl.py \ -->
-<!--     --save-dir ${save_dir} \ -->
-<!--     --total-timesteps 1000000 \ -->
-<!--     --randomization-range-file ${path_to_config_file} \ -->
-<!--     --seed ${seed} \ -->
-<!--     --pretrained-model-path ${path_to_pretrained_model} -->
-<!-- ``` -->
-<!--  -->
-<!-- ### genet training -->
-<!--  -->
-<!-- ```bash -->
-<!-- cd src/simulator -->
-<!-- CUDA_VISIBLE_DEVICES="" python genet_improved.py \ -->
-<!--     --seed ${seed} \ -->
-<!--     --heuristic ${rule_based_method_name} \ -->
-<!--     --save-dir ${save_dir}/ \ -->
-<!--     --config-file ${path_to_config_file} \ -->
-<!--     --bo-rounds ${n_bo} \ -->
-<!--     --model-path ${path_to_pretrained_model} -->
-<!-- ``` -->
 
 ### Rule-based baselines
 
