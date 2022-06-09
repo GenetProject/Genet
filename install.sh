@@ -7,10 +7,10 @@ fi
 
 if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     echo "Update apt package lists..."
-    # sudo apt-get update
+    sudo apt-get update
 
     echo "Install dependencies for stable-baselines2..."
-    # sudo apt-get install -y cmake libopenmpi-dev python3-dev zlib1g-dev
+    sudo apt-get install -y cmake libopenmpi-dev python3-dev zlib1g-dev
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     # Mac OSX
     echo "Mac OSX, not supported!"
@@ -25,6 +25,7 @@ echo "Install python packages..."
 pip install --upgrade pip --no-cache-dir
 pip install tensorflow-gpu==1.15
 pip install tensorboard==1.15.0
+pip install tensorboard-plugin-wit==1.8.0
 pip install tflearn==0.5.0
 pip install numba==0.53.1
 pip install gym==0.18.0
@@ -34,4 +35,3 @@ pip install tqdm==4.62.2
 pip install matplotlib==3.3.4
 pip install visdom==0.1.8.9
 pip install bayesian-optimization==1.2.0
-
