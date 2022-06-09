@@ -49,6 +49,60 @@ bash install.sh
 
 ## Unseen synthetic environments (Figure 9)
 
+```
+cd fig9
+bash run.sh
+# plz wait for 5 minutes to let the testing output finish writing
+```
+
+Calculate and print the mean reward and std_of_mean.
+```
+python plot_results.py
+# output: ['sim_udr_1: 1.494% 0.0049', 'sim_udr_2: 1.625% 0.0034', 'sim_udr_3: 1.692% 0.0402', 'sim_adr: 2.055% 0.0102']
+```
+
+Put the above output results into bar plot.
+```
+python test_on_sync_bar_plot.py
+```
+
+### Reproduce Figure 13 FCC
+
+```
+cd fig13_fcc
+bash run.sh
+# plz wait for 5 minutes to let the testing output finish writing
+```
+
+Calculate the mean reward and std_of_mean
+```
+python plot_results.py
+# output: ['sim_udr_real: 0.829% 0.0075', 'sim_udr_1: 0.711% 0.0146', 'sim_udr_2: 0.625% 0.0062', 'sim_udr_3: 0.747% 0.0069', 'sim_adr: 0.866% 0.0094']
+```
+
+Put the printed results into bar plot
+```
+python sim_real_world_plot.py
+```
+
+### ABR Norway
+```
+cd fig13_norway
+bash run.sh
+# Pease wait for 5 minutes to let the testing output finish writing
+```
+
+
+Calculate the mean reward and std_of_mean
+```
+python plot_results.py
+# output: ['sim_udr_real: 0.487% 0.0204', 'sim_udr_1: 0.009% 0.0294', 'sim_udr_2: 0.372% 0.0198', 'sim_udr_3: 0.368% 0.0193', 'sim_adr: 0.585% 0.0152']
+```
+
+Put the printed results into bar plot
+```
+python sim_real_world_plot.py
+```
 
 ## Learning curves (Figure 18)
 ### ABR
