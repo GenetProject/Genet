@@ -4,7 +4,7 @@ set -e
 save_dir=results/cc
 exp_name=cl1
 total_step=720001
-pretrain_model_path=../../results_0826/udr_6/udr_start/seed_20/model_step_21600.ckpt
+pretrain_model_path=models/cc/pretrained.ckpt
 
 for seed in 10 20 30;do
     mpiexec -np 2 python src/simulator/train.py \

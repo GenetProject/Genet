@@ -3,7 +3,7 @@
 set -e
 
 save_dir=results/abr
-video_size_file_dir=data/arb/video_sizes
+video_size_file_dir=data/abr/video_sizes
 val_trace_dir=data/abr/val_FCC
 config_file=config/abr/udr3.json
 pretrained_model=results/abr/new_trace_gen/udr3/seed_10/model_saved/nn_model_ep_1000.ckpt

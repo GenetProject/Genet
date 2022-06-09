@@ -3,8 +3,8 @@
 set -e
 save_dir=results/cc
 exp_name=genet
-config_file=config/train/udr_large.json
-pretrain_model_path=../../results_0826/udr_6/udr_start/seed_20/model_step_21600.ckpt
+config_file=config/cc/udr3.json
+pretrain_model_path=models/cc/pretrained.ckpt
 
 for cc in bbr_old ; do
     for seed in 10 20 30; do
