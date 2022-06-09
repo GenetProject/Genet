@@ -23,13 +23,13 @@ git clone git@github.com:GenetProject/Genet.git
   - [venv](https://docs.python.org/3.7/library/venv.html) only
   ```bash
   python3 -m venv genet
-  echo "[absolute path]/Genet/src" > genet/lib/[python version]/genet.pth
+  echo "[absolute path]/Genet/src" > genet/lib/[python version]/site-packages/genet.pth
   source genet/bin/activate
   ```
   - [virtualenv](https://virtualenv.pypa.io/en/latest/) only
   ```bash
   virtualenv -p python3 genet
-  echo "[absolute path]/Genet/src" > genet/lib/[python version]/genet.pth
+  echo "[absolute path]/Genet/src" > genet/lib/[python version]/site-packages/genet.pth
   source genet/bin/activate
   ```
   - [virtualenv](https://virtualenv.pypa.io/en/latest/) and [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/)
