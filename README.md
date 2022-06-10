@@ -60,9 +60,15 @@ bash run.sh
 ### CC
 ```bash
 cd Genet # cd into the project root
-python src/simulator/evaluate_synthetic_traces.py --save-dir results/evaluate_synthetic_dataset
+
+# time usage: about 60 min
+python src/simulator/evaluate_synthetic_traces.py \
+  --save-dir results/evaluate_synthetic_dataset \
+  --dataset-dir data/synthetic_dataset
+# Please find genet_fig_upload/fig9/fig9_cc.png
 python src/plot_scripts/plot_syn_dataset.py
 ```
+### LB
 
 ## Reproduce Figure 13
 
