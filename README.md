@@ -69,6 +69,21 @@ python src/simulator/evaluate_synthetic_traces.py \
 python src/plot_scripts/plot_syn_dataset.py
 ```
 ### LB
+Test UDR_1 model, output reward mean and std:
+```bash
+cd genet-lib-fig-upload
+python rl_test.py --saved_model="results/testing_model/udr_1/model_ep_49600.ckpt" # example output: [-4.80, 0.07]
+python rl_test.py --saved_model="results/testing_model/udr_2/model_ep_44000.ckpt" # example output: [-3.87, 0.08]
+python rl_test.py --saved_model="results/testing_model/udr_3/model_ep_25600.ckpt" # example output: [-3.57, 0.07]
+python rl_test.py --saved_model="results/testing_model/adr/model_ep_20200.ckpt" # example output: [-3.02, 0.04]
+# Please find fig_reproduce/fig9/fig9_lb.png
+python analysis/fig9_lb.py
+```
+
+## Result plotting
+Put the above output results into bar plot.
+```
+python analysis/fig9_lb.py
 
 ## Reproduce Figure 13
 
