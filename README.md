@@ -57,8 +57,16 @@ bash run.sh
 # Please find genet_fig_upload/fig9/fig9_abr.png
 ```
 
-### Reproduce Figure 13
+### CC
+```bash
+cd Genet # cd into the project root
+python src/simulator/evaluate_synthetic_traces.py --save-dir results/evaluate_synthetic_dataset
+python src/plot_scripts/plot_syn_dataset.py
+```
 
+## Reproduce Figure 13
+
+### ABR
 ```bash
 cd fig_reproduce/fig13
 bash run.sh
@@ -67,12 +75,13 @@ bash run.sh
 # genet_fig_upload/fig13/fig13_abr_norway.png
 ```
 
+### CC
+```bash
+cd Genet # cd into the project root
+python src/simulator/evaluate_synthetic_traces.py --save-dir results/evaluate_synthetic_dataset
+python src/plot_scripts/plot.py
+```
 
-<!-- Calculate the mean reward and std_of_mean -->
-<!-- ```bash -->
-<!-- python plot_results.py -->
-<!-- # output: ['sim_udr_real: 0.487% 0.0204', 'sim_udr_1: 0.009% 0.0294', 'sim_udr_2: 0.372% 0.0198', 'sim_udr_3: 0.368% 0.0193', 'sim_adr: 0.585% 0.0152'] -->
-<!-- ``` -->
 
 ## Learning curves (Figure 18)
 ### ABR
