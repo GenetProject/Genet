@@ -54,7 +54,7 @@ bash install.sh
 cd fig_reproduce/fig9
 bash run.sh
 # Please wait for 5 minutes to let the testing output finish writing.
-# Please find genet_fig_upload/fig9/fig9_abr.png
+# Please find fig_reproduce/fig9/fig9_abr.png
 ```
 
 ### CC
@@ -65,7 +65,7 @@ cd Genet # cd into the project root
 python src/simulator/evaluate_synthetic_traces.py \
   --save-dir results/evaluate_synthetic_dataset \
   --dataset-dir data/synthetic_dataset
-# Please find genet_fig_upload/fig9/fig9_cc.png
+# Please find fig_reproduce/fig9/fig9_cc.png
 python src/plot_scripts/plot_syn_dataset.py
 ```
 ### LB
@@ -74,18 +74,21 @@ python src/plot_scripts/plot_syn_dataset.py
 
 ### ABR
 ```bash
-cd fig_reproduce/fig13
+cd Genet/fig_reproduce/fig13
 bash run.sh
 # Please wait for 15 minutes to let the testing output finish writing
-# Please find genet_fig_upload/fig13/fig13_abr_fcc.png and 
-# genet_fig_upload/fig13/fig13_abr_norway.png
+# Please find fig_reproduce/fig13/fig13_abr_fcc.png and 
+# fig_reproduce/fig13/fig13_abr_norway.png
 ```
 
 ### CC
 ```bash
 cd Genet # cd into the project root
-python src/simulator/evaluate_synthetic_traces.py --save-dir results/evaluate_synthetic_dataset
-python src/plot_scripts/plot.py
+python src/plot_scripts/plot_ethernet_bars.py
+python src/plot_scripts/plot_cellular_bars.py
+
+# Please find fig_reproduce/fig13/fig13_cc_ethernet.png and 
+# fig_reproduce/fig13/fig13_cc_cellular.png
 ```
 
 
