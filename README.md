@@ -80,11 +80,6 @@ python rl_test.py --saved_model="results/testing_model/adr/model_ep_20200.ckpt" 
 python analysis/fig9_lb.py
 ```
 
-## Result plotting
-Put the above output results into bar plot.
-```
-python analysis/fig9_lb.py
-
 ## Reproduce Figure 13
 
 ### ABR
@@ -127,6 +122,8 @@ bash src/drivers/cc/train_cl3.sh
 # TODO: add plot scripts
 ```
 
+## Emulation (Figure 17)
+
 <!-- ## Traces -->
 <!--  -->
 <!-- ### Real Traces -->
@@ -145,19 +142,19 @@ bash src/drivers/cc/train_cl3.sh
 <!-- The configurations are stored at `Genet/config/train` -->
 
 
-### Rule-based baselines
-
-- BBR: [paper](https://www.cis.upenn.edu/~cis553/files/BBR.pdf),
-  [code](https://github.com/google/bbr),
-  [implentation in simulator](src/simulator/network_simulator/bbr.py)
-- Copa:
-  [paper](https://www.usenix.org/system/files/conference/nsdi18/nsdi18-arun.pdf),
-  [code](https://github.com/venkatarun95/genericCC)
-- Cubic:
-  [paper](https://www.cs.princeton.edu/courses/archive/fall16/cos561/papers/Cubic08.pdf),
-  [code](https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/net/ipv4/tcp_cubic.c),
-  [implentation in simulator](src/simulator/network_simulator/cubic.py)
-- PCC-Vivace:
-  [paper](https://www.usenix.org/system/files/conference/nsdi18/nsdi18-dong.pdf),
-  [code](https://github.com/PCCproject/PCC-Uspace),
-  [implentation in simulator](src/simulator/network_simulator/pcc/vivace/vivace_latency.py)
+<!-- ### Rule-based baselines -->
+<!--  -->
+<!-- - BBR: [paper](https://www.cis.upenn.edu/~cis553/files/BBR.pdf), -->
+<!--   [code](https://github.com/google/bbr), -->
+<!--   [implentation in simulator](src/simulator/network_simulator/bbr.py) -->
+<!-- - Copa: -->
+<!--   [paper](https://www.usenix.org/system/files/conference/nsdi18/nsdi18-arun.pdf), -->
+<!--   [code](https://github.com/venkatarun95/genericCC) -->
+<!-- - Cubic: -->
+<!--   [paper](https://www.cs.princeton.edu/courses/archive/fall16/cos561/papers/Cubic08.pdf), -->
+<!--   [code](https://git.kernel.org/pub/scm/linux/kernel/git/netdev/net-next.git/tree/net/ipv4/tcp_cubic.c), -->
+<!--   [implentation in simulator](src/simulator/network_simulator/cubic.py) -->
+<!-- - PCC-Vivace: -->
+<!--   [paper](https://www.usenix.org/system/files/conference/nsdi18/nsdi18-dong.pdf), -->
+<!--   [code](https://github.com/PCCproject/PCC-Uspace), -->
+<!--   [implentation in simulator](src/simulator/network_simulator/pcc/vivace/vivace_latency.py) -->
