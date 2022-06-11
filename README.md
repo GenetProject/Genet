@@ -63,8 +63,8 @@ cd Genet # cd into the project root
 
 # time usage: about 60 min
 python src/simulator/evaluate_synthetic_traces.py \
-  --save-dir results/evaluate_synthetic_dataset \
-  --dataset-dir data/synthetic_dataset
+  --save-dir results/cc/evaluate_synthetic_dataset \
+  --dataset-dir data/cc/synthetic_dataset
 # Please find fig_reproduce/fig9/fig9_cc.png
 python src/plot_scripts/plot_syn_dataset.py
 ```
@@ -106,6 +106,7 @@ python src/plot_scripts/plot_cellular_bars.py
 ### ABR
 ```bash
 cd Genet
+
 bash src/drivers/abr/train_udr3.sh
 bash src/drivers/abr/train_genet.sh
 bash src/drivers/abr/train_cl1.sh
@@ -114,6 +115,11 @@ bash src/drivers/abr/train_cl1.sh
 ### CC
 ```bash
 cd Genet
+
+bash src/drivers/cc/run_for_learning_curve.sh
+python src/plot_scripts/plot_learning_curve.py
+
+# Want to train from scratch? run the following commands
 bash src/drivers/cc/train_udr3.sh
 bash src/drivers/cc/train_genet.sh
 bash src/drivers/cc/train_cl1.sh
