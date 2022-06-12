@@ -114,6 +114,8 @@ training. Example figures are [here](/fig_reproduce/fig18).
 
 
 ### CC
+Please download models.tar.gz from [here](https://drive.google.com/file/d/1QxMLyffHlox8r6aSpVj37JEQ4_dyb2iN/view?usp=sharing)
+and untar it under Genet/
 ```bash
 cd Genet
 
