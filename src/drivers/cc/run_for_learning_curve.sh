@@ -28,4 +28,10 @@ for seed in 10 20 30; do
         --save-dir results/cc/learning_curve/ \
         --cc cl3 \
         --models-path models/cc/learning_curve/cl3/seed_${seed}
+
+    python src/simulator/evaluate_training_models_synthetic.py \
+        --dataset-dir data/cc/learning_curve \
+        --save-dir results/cc/learning_curve/ \
+        --cc udr3 \
+        --models-path models/cc/learning_curve/udr3/seed_${seed}
 done

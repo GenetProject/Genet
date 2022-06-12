@@ -50,7 +50,7 @@ def main():
             model_path = os.path.join(
                 args.models_path, 'model_step_{}.ckpt'.format(step))
             test_on_traces(model_path, traces, udr_save_dirs,
-                           args.nproc, 42, False, True)
+                           args.nproc, 42, False, False)
             # step += 28800
     elif args.cc == 'udr1' or args.cc == 'udr2' or args.cc == 'udr3' or \
             args.cc == 'cl1' or args.cc == 'cl1_new' or args.cc == 'cl2' or \
@@ -96,7 +96,7 @@ def main():
                     "step_{}".format(step)) for save_dir in save_dirs]
                 # print(genet_save_dirs)
                 test_on_traces(model_path, traces, genet_save_dirs,
-                               args.nproc, 42, False, True)
+                               args.nproc, 42, False, False)
     else:
         raise ValueError
 
