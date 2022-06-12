@@ -177,10 +177,10 @@ def main():
     genet_bbr_old_losses_up_bnd = load_genet_results(
             save_dirs, [10, 20, 30], 'genet_bbr_old')
 
-    # genet_bbr_old_steps = np.concatenate([np.array(pretrained_steps), 115200 - 28800 + np.array(genet_bbr_old_steps) / (genet_bbr_old_steps[-1] - genet_bbr_old_steps[0]) * (7.128e5 - 115200)])
-    # genet_bbr_old_rewards = np.concatenate([pretrained_rewards, genet_bbr_old_rewards])
-    # genet_bbr_old_low_bnd = np.concatenate([pretrained_rewards, genet_bbr_old_low_bnd])
-    # genet_bbr_old_up_bnd = np.concatenate([pretrained_rewards, genet_bbr_old_up_bnd])
+    genet_bbr_old_steps = np.concatenate([np.array(pretrained_steps), pretrained_steps[-1] + np.array(genet_bbr_old_steps)])
+    genet_bbr_old_rewards = np.concatenate([pretrained_rewards, genet_bbr_old_rewards])
+    genet_bbr_old_low_bnd = np.concatenate([pretrained_low_bnd, genet_bbr_old_low_bnd])
+    genet_bbr_old_up_bnd = np.concatenate([pretrained_up_bnd, genet_bbr_old_up_bnd])
 
     cl1_steps = list(range(0, 720000, 72000))
     cl1_rewards, cl1_tputs, cl1_lats, cl1_losses, \
@@ -189,6 +189,10 @@ def main():
     cl1_lats_low_bnd, cl1_lats_up_bnd, \
     cl1_losses_low_bnd, cl1_losses_up_bnd = load_results(
         save_dirs, list(range(10, 40, 10)), cl1_steps, 'cl1')
+    cl1_steps = np.concatenate([np.array(pretrained_steps), pretrained_steps[-1] + np.array(cl1_steps)])
+    cl1_rewards = np.concatenate([pretrained_rewards, cl1_rewards])
+    cl1_low_bnd = np.concatenate([pretrained_low_bnd, cl1_low_bnd])
+    cl1_up_bnd = np.concatenate([pretrained_up_bnd, cl1_up_bnd])
 
     cl2_steps = list(range(0, 720000, 72000))
     cl2_rewards, cl2_tputs, cl2_lats, cl2_losses, \
@@ -197,6 +201,10 @@ def main():
     cl2_lats_low_bnd, cl2_lats_up_bnd, \
     cl2_losses_low_bnd, cl2_losses_up_bnd = load_results(
         save_dirs, list(range(10, 40, 10)), cl2_steps, 'cl2')
+    cl2_steps = np.concatenate([np.array(pretrained_steps), pretrained_steps[-1] + np.array(cl2_steps)])
+    cl2_rewards = np.concatenate([pretrained_rewards, cl2_rewards])
+    cl2_low_bnd = np.concatenate([pretrained_low_bnd, cl2_low_bnd])
+    cl2_up_bnd = np.concatenate([pretrained_up_bnd, cl2_up_bnd])
 
     udr3_steps = list(range(0, 720000, 72000))
     udr3_rewards, udr3_tputs, udr3_lats, udr3_losses, \
@@ -213,6 +221,11 @@ def main():
     cl3_lats_low_bnd, cl3_lats_up_bnd, cl3_losses_low_bnd, \
     cl3_losses_up_bnd = load_genet_results(
             save_dirs, [10, 20, 30], 'cl3')
+
+    cl3_steps = np.concatenate([np.array(pretrained_steps), pretrained_steps[-1] + np.array(cl3_steps)])
+    cl3_rewards = np.concatenate([pretrained_rewards, cl3_rewards])
+    cl3_low_bnd = np.concatenate([pretrained_low_bnd, cl3_low_bnd])
+    cl3_up_bnd = np.concatenate([pretrained_up_bnd, cl3_up_bnd])
 
     fig, ax = plt.subplots(1, 1)  # reward curve
     
