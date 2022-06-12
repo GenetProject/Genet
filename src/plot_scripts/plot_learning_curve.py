@@ -4,10 +4,10 @@ import matplotlib.pyplot as plt
 import numpy as np
 from typing import List, Tuple
 
-from simulator.trace import Trace
 from common.utils import load_summary
+from simulator.synthetic_dataset import SyntheticDataset
 
-SAVE_DIR  = "/datamirror/zxxia/PCC-RL/results_1006/synthetic_traces_curve_1000"
+SAVE_DIR  = "results/cc/learning_curve"
 
 
 def load_summaries_across_traces(log_files: List[str]) -> \
@@ -159,16 +159,10 @@ def load_genet_results(save_dirs: List[str], seeds: List[int], name: str):
             losses_low_bnd, losses_up_bnd)
 
 def main():
-    target_ids = []
-    for i in range(1000):
-        trace = Trace.load_from_file(os.path.join('/datamirror/zxxia/PCC-RL/results_1006/synthetic_dataset/trace_{:05d}.json'.format(i)))
-        if trace.min_bw < 0.5:
-            continue
-        target_ids.append(i)
-    save_dirs = [os.path.join(SAVE_DIR, "trace_{:05d}".format(i)) for i in target_ids]
+    dataset = SyntheticDataset.load_from_dir('data/cc/learning_curve')
+    save_dirs = [os.path.join(SAVE_DIR, "trace_{:05d}".format(i)) for i in range(len(dataset))]
 
-
-    pretrained_steps = list(range(7200, 115200-28800, 28800))
+    pretrained_steps = [7200, 21600] 
     pretrained_rewards, pretrained_tputs, pretrained_lats, pretrained_losses, \
         pretrained_low_bnd, pretrained_up_bnd, \
     pretrained_tputs_low_bnd, pretrained_tputs_up_bnd, \
@@ -176,7 +170,6 @@ def main():
     pretrained_losses_low_bnd, pretrained_losses_up_bnd = load_results(
         save_dirs, list(range(20, 30, 10)), pretrained_steps, 'pretrained')
 
-    save_dirs = [os.path.join("/tank/zxxia/PCC-RL/results_1006/synthetic_traces_curve_1000", "trace_{:05d}".format(i)) for i in target_ids]
     genet_bbr_old_steps, genet_bbr_old_rewards, genet_bbr_old_tputs, genet_bbr_old_lats, \
     genet_bbr_old_losses, genet_bbr_old_low_bnd, genet_bbr_old_up_bnd, \
     genet_bbr_old_tputs_low_bnd, genet_bbr_old_tputs_up_bnd, \
@@ -184,14 +177,11 @@ def main():
     genet_bbr_old_losses_up_bnd = load_genet_results(
             save_dirs, [10, 20, 30], 'genet_bbr_old')
 
-
     # genet_bbr_old_steps = np.concatenate([np.array(pretrained_steps), 115200 - 28800 + np.array(genet_bbr_old_steps) / (genet_bbr_old_steps[-1] - genet_bbr_old_steps[0]) * (7.128e5 - 115200)])
     # genet_bbr_old_rewards = np.concatenate([pretrained_rewards, genet_bbr_old_rewards])
     # genet_bbr_old_low_bnd = np.concatenate([pretrained_rewards, genet_bbr_old_low_bnd])
     # genet_bbr_old_up_bnd = np.concatenate([pretrained_rewards, genet_bbr_old_up_bnd])
 
-
-    save_dirs = [os.path.join("/tank/zxxia/PCC-RL/results_1006/synthetic_traces_curve_1000", "trace_{:05d}".format(i)) for i in target_ids]
     cl1_steps = list(range(0, 720000, 72000))
     cl1_rewards, cl1_tputs, cl1_lats, cl1_losses, \
         cl1_low_bnd, cl1_up_bnd, \
@@ -208,38 +198,36 @@ def main():
     cl2_losses_low_bnd, cl2_losses_up_bnd = load_results(
         save_dirs, list(range(10, 40, 10)), cl2_steps, 'cl2')
 
-
-    save_dirs = [os.path.join("/datamirror/zxxia/PCC-RL/results_1006/synthetic_traces_curve_1000", "trace_{:05d}".format(i)) for i in target_ids]
     udr3_steps = list(range(0, 720000, 72000))
     udr3_rewards, udr3_tputs, udr3_lats, udr3_losses, \
         udr3_low_bnd, udr3_up_bnd, \
     udr3_tputs_low_bnd, udr3_tputs_up_bnd, \
     udr3_lats_low_bnd, udr3_lats_up_bnd, \
     udr3_losses_low_bnd, udr3_losses_up_bnd = load_results(
-        save_dirs, list(range(10, 40, 10)), udr3_steps, 'udr3_0.5')
-
+        save_dirs, list(range(10, 40, 10)), udr3_steps, 'udr3')
 
     fig, ax = plt.subplots(1, 1)  # reward curve
     
     ax.plot(genet_bbr_old_steps, genet_bbr_old_rewards, label='Genet')
     ax.fill_between(genet_bbr_old_steps, genet_bbr_old_low_bnd, genet_bbr_old_up_bnd, color='C0', alpha=0.1)
 
-
     ax.plot(cl1_steps, cl1_rewards, label='cl1')
     ax.fill_between(cl1_steps, cl1_low_bnd, cl1_up_bnd, color='C1', alpha=0.1)
     ax.plot(cl2_steps, cl2_rewards, label='cl2')
     ax.fill_between(cl2_steps, cl2_low_bnd, cl2_up_bnd, color='C2', alpha=0.1)
+    ax.plot(cl3_steps, cl3_rewards, label='cl3')
+    ax.fill_between(cl3_steps, cl3_low_bnd, cl3_up_bnd, color='C3', alpha=0.1)
 
     ax.plot(udr3_steps, udr3_rewards, label='RL3')
-    ax.fill_between(udr3_steps, udr3_low_bnd, udr3_up_bnd, color='C3', alpha=0.1)
+    ax.fill_between(udr3_steps, udr3_low_bnd, udr3_up_bnd, color='C4', alpha=0.1)
 
     ax.set_xlabel("Training step")
     ax.set_ylabel("Test reward")
     ax.legend(loc='lower right')
     fig.set_tight_layout(True)
     print(genet_bbr_old_steps)
-    # pass
-    plt.show()
+    os.makedirs('fig_reproduce/fig18', exist_ok=True)
+    plt.savefig('fig_reproduce/fig18/fig18_cc.png')
 
 
 if __name__ == '__main__':

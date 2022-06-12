@@ -13,7 +13,7 @@ from simulator.synthetic_dataset import SyntheticDataset
 def parse_args():
     """Parse arguments from the command line."""
     parser = argparse.ArgumentParser("Aurora Testing in simulator.")
-    parser.add_argument('--dataset-dir', typ=str)
+    parser.add_argument('--dataset-dir', type=str)
     parser.add_argument('--save-dir', type=str, default="",
                         help="direcotry to testing results.")
     parser.add_argument('--cc', type=str, required=True,
@@ -40,8 +40,9 @@ def main():
         for s in args.models_path.split('/'):
             if 'seed' in s:
                 udr_seed = s
-        step = 7200
-        while step <= 151200:
+        # step = 7200
+        # while step <= 151200:
+        for step in [7200, 21600]:
             if not os.path.exists(os.path.join(args.models_path, 'model_step_{}.ckpt.meta'.format(step))):
                 break
             udr_save_dirs = [os.path.join(
@@ -50,11 +51,11 @@ def main():
                 args.models_path, 'model_step_{}.ckpt'.format(step))
             test_on_traces(model_path, traces, udr_save_dirs,
                            args.nproc, 42, False, True)
-            step += 28800
+            # step += 28800
     elif args.cc == 'udr1' or args.cc == 'udr2' or args.cc == 'udr3' or \
             args.cc == 'cl1' or args.cc == 'cl1_new' or args.cc == 'cl2' or \
             args.cc == 'cl2_new' or args.cc == 'real_cellular' or \
-            'udr' in args.cc or 'cl' in args.cc:
+            'udr' in args.cc:
         udr_seed = ''
         for s in args.models_path.split('/'):
             if 'seed' in s:
@@ -63,6 +64,7 @@ def main():
         step = 0
         while step <= 720000: #model_step_183240000.ckpt.meta
             if not os.path.exists(os.path.join(args.models_path, 'model_step_{}.ckpt.meta'.format(step))):
+                print(os.path.join(args.models_path, 'model_step_{}.ckpt.meta'.format(step)))
                 # break
                 continue
             udr_save_dirs = [os.path.join(

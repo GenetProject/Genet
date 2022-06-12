@@ -4,7 +4,7 @@ set -e
 save_dir=results/cc
 exp_name=cl2
 total_step=720001
-pretrain_model_path=models/cc/pretrained.ckpt
+pretrain_model_path=models/cc/pretrained/pretrained.ckpt
 config_file=config/cc/udr3.json
 
 for seed in 10 20 30;do

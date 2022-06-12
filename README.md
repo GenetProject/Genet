@@ -119,13 +119,12 @@ cd Genet
 bash src/drivers/cc/run_for_learning_curve.sh
 python src/plot_scripts/plot_learning_curve.py
 
-# Want to train from scratch? run the following commands
+# Train from scratch? run the following commands
 bash src/drivers/cc/train_udr3.sh
 bash src/drivers/cc/train_genet.sh
 bash src/drivers/cc/train_cl1.sh
 bash src/drivers/cc/train_cl2.sh
 bash src/drivers/cc/train_cl3.sh
-# TODO: add plot scripts
 ```
 
 ## Emulation (Figure 17)

@@ -4,7 +4,7 @@ set -e
 save_dir=results/cc
 exp_name=genet
 config_file=config/cc/udr3.json
-pretrain_model_path=models/cc/pretrained.ckpt
+pretrain_model_path=models/cc/pretrained/pretrained.ckpt
 
 for cc in bbr_old ; do
     for seed in 10 20 30; do
