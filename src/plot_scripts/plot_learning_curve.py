@@ -206,6 +206,14 @@ def main():
     udr3_losses_low_bnd, udr3_losses_up_bnd = load_results(
         save_dirs, list(range(10, 40, 10)), udr3_steps, 'udr3')
 
+
+    cl3_steps, cl3_rewards, cl3_tputs, cl3_lats, \
+    cl3_losses, cl3_low_bnd, cl3_up_bnd, \
+    cl3_tputs_low_bnd, cl3_tputs_up_bnd, \
+    cl3_lats_low_bnd, cl3_lats_up_bnd, cl3_losses_low_bnd, \
+    cl3_losses_up_bnd = load_genet_results(
+            save_dirs, [10, 20, 30], 'cl3')
+
     fig, ax = plt.subplots(1, 1)  # reward curve
     
     ax.plot(genet_bbr_old_steps, genet_bbr_old_rewards, label='Genet')
@@ -220,6 +228,8 @@ def main():
 
     ax.plot(udr3_steps, udr3_rewards, label='RL3')
     ax.fill_between(udr3_steps, udr3_low_bnd, udr3_up_bnd, color='C4', alpha=0.1)
+
+    ax.set_xlim(0, np.min([cl1_steps[-1], cl2_steps[-1], cl3_steps[-1]]))
 
     ax.set_xlabel("Training step")
     ax.set_ylabel("Test reward")
