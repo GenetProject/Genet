@@ -9,7 +9,7 @@ Simulation and training experiments were done in a Ubuntu server with
     - Architecture:        x86_64
     - CPU(s):              32
     - Model name:          Intel(R) Xeon(R) Silver 4110 CPU @ 2.10GHz
-
+So the installation below only runs on Ubuntu.
 
 ### Download the source code
 
@@ -40,7 +40,7 @@ git clone git@github.com:GenetProject/Genet.git
   ```
 - Now the virtual environment is activated.
 
-## Installation
+## Install dependency
 
 ```bash
 cd Genet
@@ -48,6 +48,10 @@ bash install.sh
 ```
 
 ## Unseen synthetic environments (Figure 9)
+We choose Figure 9 to reproduce because it is the first evaluation figure 
+which shows how Genet training improves models' performance on unseen
+environments. Example figures are at [] (fig_reproduce/fig13)
+
 
 ### ABR
 ```bash
@@ -69,7 +73,6 @@ python src/simulator/evaluate_synthetic_traces.py \
 python src/plot_scripts/plot_syn_dataset.py
 ```
 ### LB
-Test UDR_1 model, output reward mean and std:
 ```bash
 cd genet-lib-fig-upload
 python rl_test.py --saved_model="results/testing_model/udr_1/model_ep_49600.ckpt" # example output: [-4.80, 0.07]
@@ -81,6 +84,9 @@ python analysis/fig9_lb.py
 ```
 
 ## Reproduce Figure 13
+We choose Figure 13 to reproduce because it is the first evaluation figure 
+which shows how Genet training improves models' generalizability. Example
+figures are at [] (fig_reproduce/fig13)
 
 ### ABR
 ```bash
@@ -103,6 +109,10 @@ python src/plot_scripts/plot_cellular_bars.py
 
 
 ## Learning curves (Figure 18)
+We choose Figure 18 to reproduce because it shows how Genet helps model 
+training. Example figures are at [] (fig_reproduce/fig18)
+
+
 ### ABR
 ```bash
 cd Genet
