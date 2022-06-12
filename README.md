@@ -115,7 +115,7 @@ training. Example figures are [here](/fig_reproduce/fig18).
 
 ### CC
 Please download models.tar.gz from [here](https://drive.google.com/file/d/1QxMLyffHlox8r6aSpVj37JEQ4_dyb2iN/view?usp=sharing)
-and untar it under Genet/
+and untar it under ```Genet/```
 ```bash
 cd Genet
 
@@ -143,7 +143,7 @@ bash src/drivers/abr/train_cl1.sh
 ## Emulation (Figure 17)
 
 ### CC
-Please clone (this repository)[https://github.com/zxxia/pantheon] and follow
+Please clone [this repository](https://github.com/zxxia/pantheon) and follow
 the instructions in README to install pantheon.
 ```bash
 cd Genet && cd ..
