@@ -86,7 +86,7 @@ python analysis/fig9_lb.py
 ## Reproduce Figure 13
 We choose Figure 13 to reproduce because it is the first evaluation figure 
 which shows how Genet training improves models' generalizability. Example
-figures are at [here] (/fig_reproduce/fig13)
+figures are at [here](/fig_reproduce/fig13).
 
 ### ABR
 ```bash
@@ -110,7 +110,7 @@ python src/plot_scripts/plot_cellular_bars.py
 
 ## Learning curves (Figure 18)
 We choose Figure 18 to reproduce because it shows how Genet helps model 
-training. Example figures are [here] (/fig_reproduce/fig18)
+training. Example figures are [here](/fig_reproduce/fig18).
 
 
 ### ABR
