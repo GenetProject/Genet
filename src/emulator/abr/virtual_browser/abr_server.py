@@ -1,4 +1,3 @@
-import tensorflow as tf
 import argparse
 import csv
 from http.server import BaseHTTPRequestHandler, HTTPServer
@@ -9,10 +8,10 @@ import time
 
 import numpy as np
 
-from pensieve.agent_policy import Pensieve, RobustMPC, BufferBased, FastMPC
-from pensieve.a3c.a3c_jump import ActorNetwork
-
-from pensieve.constants import (
+# from pensieve.agent_policy import Pensieve, RobustMPC
+from simulator.abr_simulator.pensieve.pensieve import Pensieve
+from simulator.abr_simulator.mpc import RobustMPC
+from simulator.abr_simulator.constants import (
     A_DIM,
     BUFFER_NORM_FACTOR,
     DEFAULT_QUALITY,
@@ -22,7 +21,7 @@ from pensieve.constants import (
     TOTAL_VIDEO_CHUNK,
     VIDEO_BIT_RATE,
 )
-from pensieve.utils import construct_bitrate_chunksize_map, linear_reward
+from simulator.abr_simulator.utils import construct_bitrate_chunksize_map, linear_reward
 
 RANDOM_SEED = 42
 RAND_RANGE = 1000
@@ -35,7 +34,7 @@ def parse_args():
                         help='Optional description of the experiment.')
     # ABR related
     parser.add_argument('--abr', type=str, required=True,
-                        choices=['RobustMPC', 'RL', 'BufferBased', 'FastMPC'],
+                        choices=['RobustMPC', 'RL'],
                         help='ABR algorithm.')
     parser.add_argument('--actor-path', type=str, default=None,
                         help='Path to RL model.')
@@ -64,8 +63,6 @@ def make_request_handler(server_states):
             self.abr = server_states['abr']
             self.video_size = server_states['video_size']
             self.log_writer = server_states['log_writer']
-            self.sess = server_states['sess']
-            self.actor = server_states['actor']
 
             BaseHTTPRequestHandler.__init__(self, *args, **kwargs)
 
@@ -194,45 +191,26 @@ def make_request_handler(server_states):
                      post_data['bandwidthEst'] / 1000,
                      self.server_states['future_bandwidth']])
                 if isinstance(self.abr, Pensieve):
-                    bit_rate = self.abr.select_action(
-                        self.server_states['state'], last_bit_rate=self.server_states['last_bit_rate'])
+                    bit_rate, _ = self.abr.select_action(
+                        self.server_states['state'])
+                    bit_rate = bit_rate.item()
                 elif isinstance(self.abr, RobustMPC):
                     last_index = int(post_data['lastRequest'])
-                    future_chunk_cnt = min(self.abr.mpc_future_chunk_cnt,
+                    future_chunk_cnt = min(self.abr.mpc_future_chunk_count,
                                            TOTAL_VIDEO_CHUNK - last_index - 1)
-                    bit_rate, self.server_states['future_bandwidth'] = \
-                        self.abr.select_action(
+                    bit_rate = self.abr.get_next_bitrate(
                         self.server_states['state'], last_index,
                         future_chunk_cnt, np.array(
                             [self.video_size[i]
                              for i in sorted(self.video_size)]),
                         post_data['lastquality'], post_data['buffer'])
-                elif isinstance(self.abr, BufferBased):
-                    bit_rate = self.abr.select_action(post_data['buffer'])
-                elif isinstance(self.abr, FastMPC):
-                    last_index = int( post_data['lastRequest'] )
-                    future_chunk_cnt = min( self.abr.mpc_future_chunk_cnt ,
-                                            TOTAL_VIDEO_CHUNK - last_index - 1 )
-                    bit_rate ,self.server_states['future_bandwidth'] = \
-                        self.abr.select_action(
-                            self.server_states['state'] ,last_index ,
-                            future_chunk_cnt ,np.array(
-                                [self.video_size[i]
-                                 for i in sorted( self.video_size )] ) ,
-                            post_data['lastquality'] ,post_data['buffer'] )
+                    self.server_states['future_bandwidth'] = self.abr.future_bandwidth
+                    # print(self.server_states['state'], last_index,
+                    #       future_chunk_cnt, bit_rate)
                 else:
                     raise TypeError("Unsupported ABR type.")
-                # action_prob = self.actor.predict(
-                #     np.reshape(state, (1, S_INFO, S_LEN)))
-                # action_cumsum = np.cumsum(action_prob)
-                # bit_rate = (action_cumsum > np.random.randint(
-                #     1, RAND_RANGE) / float(RAND_RANGE)).argmax()
-                # Note: we need to discretize the probability into 1/RAND_RANGE
-                # steps, because there is an intrinsic discrepancy in passing
-                # single state and batch states
 
                 # send data to html side
-                #self.last_bit_rate = bit_rate
                 send_data = str(bit_rate)
 
                 end_of_video = post_data['lastRequest'] == TOTAL_VIDEO_CHUNK
@@ -280,66 +258,45 @@ def run_abr_server(abr, trace_file, summary_dir, actor_path,
     log_file_path = os.path.join(
         summary_dir, 'log_{}_{}'.format(abr, os.path.basename(trace_file)))
 
-    with tf.Session() as sess ,open( log_file_path ,'wb' ) as log_file:
+    if abr == 'RobustMPC':
+        abr = RobustMPC()
+    elif abr == 'RL':
+        assert actor_path is not None, "actor-path is needed for RL abr."
+        abr = Pensieve(16, summary_dir, actor_path=actor_path)
+    else:
+        raise ValueError("ABR {} is not supported!".format(abr))
 
-        actor = ActorNetwork( sess ,
-                              state_dim=[6 ,6] ,action_dim=3 ,
-                              bitrate_dim=6)
+    video_size = construct_bitrate_chunksize_map(video_size_file_dir)
+    np.random.seed(RANDOM_SEED)
 
-        sess.run( tf.initialize_all_variables() )
-        saver = tf.train.Saver()  # save neural net parameters
+    assert len(VIDEO_BIT_RATE) == A_DIM
 
-        # restore neural net parameters
-        nn_model = actor_path
-        if nn_model is not None:  # nn_model is the path to file
-            saver.restore( sess ,nn_model )
-            #print( "Model restored." )
+    # interface to abr_rl server
 
-        if abr == 'RobustMPC':
-            abr = RobustMPC()
-        elif abr == 'FastMPC':
-            abr = FastMPC()
-        elif abr == 'RL':
-            assert actor_path is not None, "actor-path is needed for RL abr."
-            abr = Pensieve(16, summary_dir, actor=actor)
-        elif abr == 'BufferBased':
-            abr = BufferBased()
-        else:
-            raise ValueError("ABR {} is not supported!".format(abr))
+    log_writer = csv.writer(open(log_file_path, 'w', 1), delimiter='\t',
+                            lineterminator='\n')
+    log_writer.writerow(
+        ['timestamp', 'bit_rate', 'buffer_size', 'rebuffer_time',
+         'video_chunk_size', 'download_time', 'reward',
+         'bandwidth_estimation','future_bandwidth'])
 
-        video_size = construct_bitrate_chunksize_map(video_size_file_dir)
-        np.random.seed(RANDOM_SEED)
+    # variables and states needed to track among requests
+    server_states = {
+        'log_writer': log_writer,
+        'abr': abr,
+        'video_size': video_size,
+        'video_chunk_count': 0,
+        "last_total_rebuf": 0,
+        'last_bit_rate': DEFAULT_QUALITY,
+        'state': np.zeros((1, S_INFO, S_LEN)),
+        'future_bandwidth': 0
+    }
+    handler_class = make_request_handler(server_states)
 
-        assert len(VIDEO_BIT_RATE) == A_DIM
-
-        # interface to abr_rl server
-
-        log_writer = csv.writer(open(log_file_path, 'w', 1), delimiter='\t',
-                                lineterminator='\n')
-        log_writer.writerow(
-            ['timestamp', 'bit_rate', 'buffer_size', 'rebuffer_time',
-             'video_chunk_size', 'download_time', 'reward',
-             'bandwidth_estimation','future_bandwidth'])
-
-        # variables and states needed to track among requests
-        server_states = {
-            'sess': sess,
-            'actor': actor,
-            'log_writer': log_writer,
-            'abr': abr,
-            'video_size': video_size,
-            'video_chunk_count': 0,
-            "last_total_rebuf": 0,
-            'last_bit_rate': DEFAULT_QUALITY,
-            'state': np.zeros((1, S_INFO, S_LEN)),
-            'future_bandwidth': 0
-        }
-        handler_class = make_request_handler(server_states)
-
-        server_address = (ip, port)
-        httpd = HTTPServer(server_address, handler_class)
-        print('Listening on ({}, {})'.format(ip, port))
-        httpd.serve_forever()
+    server_address = (ip, port)
+    httpd = HTTPServer(server_address, handler_class)
+    print('Listening on ({}, {})'.format(ip, port))
+    httpd.serve_forever()
 
 
 def main():

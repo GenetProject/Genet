@@ -6,6 +6,7 @@ from simulator.abr_simulator.constants import (
     BITS_IN_BYTE, B_IN_MB, MILLISECONDS_IN_SECOND, TOTAL_VIDEO_CHUNK,
     VIDEO_BIT_RATE)
 from simulator.abr_simulator.schedulers import Scheduler, TestScheduler
+from simulator.abr_simulator.utils import construct_bitrate_chunksize_map
 
 DRAIN_BUFFER_SLEEP_TIME = 500.0  # millisec
 PACKET_PAYLOAD_PORTION = 0.95
@@ -42,18 +43,7 @@ class Environment:
         # note: trace file starts with time 0
         self.last_mahimahi_time = self.cooked_time[self.mahimahi_ptr - 1]
 
-        self._construct_bitrate_chunksize_map(video_size_file_dir)
-
-    def _construct_bitrate_chunksize_map(self, video_size_file_dir):
-        """Construct a dict mapping bitrate to video chunk size."""
-        self.video_size = {}  # in bytes
-        for bitrate in range(len(VIDEO_BIT_RATE)):
-            self.video_size[bitrate] = []
-            video_size_file = os.path.join(video_size_file_dir,
-                                           'video_size_{}'.format(bitrate))
-            with open(video_size_file, 'r') as f:
-                for line in f:
-                    self.video_size[bitrate].append(int(line.split()[0]))
+        self.video_size = construct_bitrate_chunksize_map(video_size_file_dir)
 
     def get_video_chunk(self, quality: int):
 
