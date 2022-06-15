@@ -1,0 +1,94 @@
+<!doctype html>
+<html>
+
+<head>
+    <title>Dash.js Rocks haha</title>
+</head>
+
+<body>
+    <div>
+        <video id="videoPlayer" controls="" , autoplay="" , muted></video>
+    </div>
+    <script src="dash.all.min.js"></script>
+    <script>
+        (function () {
+            var url_string = window.location.href;
+            var url = new URL(url_string);
+            var buffer_threshold = url.searchParams.get("buffer_threshold");
+            if (buffer_threshold == null) {
+                buffer_threshold = 60;
+            } else {
+                buffer_threshold = parseInt(buffer_threshold);
+            }
+            var port = url.searchParams.get("port");
+            if (port == null) {
+                port = 8333;
+            } else {
+                port = parseInt(port);
+            }
+            // var abr_id = parseInt(url.searchParams.get("abr_id"));
+            var abr = url.searchParams.get("abr_id");
+            if (abr == null) {
+                abr = 'Default';
+            }
+
+            console.log(buffer_threshold);
+            console.log(abr);
+            var manifest_url = "/Manifest.mpd";
+            var player = dashjs.MediaPlayer().create()
+
+            var abr_id_map = {
+                'Default': 0,
+                'FixedRate': 1,
+                'BufferBased': 4,
+                'RateBased': 3,
+                'RL': 4,
+                'RobustMPC': 4,
+                'FastMPC': 4,
+                'Festive': 5,
+                'Bola': 6
+            };
+            var abr_id = abr_id_map[abr];
+            console.log(abr_id);
+
+            /*var abr_algorithms = {
+                0: 'Default',
+                1: 'Fixed Rate (0)',
+                2: 'Buffer Based',
+                3: 'Rate Based',
+                4: 'RL',
+                5: 'Festive',
+                6: 'Bola'
+            };*/
+
+            if (abr_id > 1 && abr_id != 6) {
+                player.enablerlABR(true);
+            }
+
+            // uncomment this block if you want to change the buffer size that
+            // dash tries to maintain
+            player.setBufferTimeAtTopQuality(buffer_threshold);
+            player.setStableBufferTime(buffer_threshold);
+            player.setBufferToKeep(buffer_threshold);
+            player.setBufferPruningInterval(buffer_threshold);
+
+            player.initialize(document.querySelector("#videoPlayer"), manifest_url, true);
+
+            if (abr_id == 6) { //BOLA
+                player.enableBufferOccupancyABR(true);
+            }
+            player.setNetworkAddress("localhost", port)
+            player.setAbrAlgorithm(abr_id);
+
+            //if (abr_id in abr_algorithms) {
+            if (abr in abr_id_map) {
+                //document.title = abr_algorithms[abr_id];
+                document.title = abr;
+            } else {
+                document.title = "Unknown ABR Algorithm";
+            }
+        })();
+    </script>
+</body>
+
+</html>
