@@ -2,21 +2,20 @@ import csv
 import os
 from typing import List
 
-import numpy as np
-
 from simulator.abr_simulator.abr_trace import AbrTrace
+from simulator.abr_simulator.base_abr import BaseAbr
 from simulator.abr_simulator.constants import (
         A_DIM, DEFAULT_QUALITY, M_IN_K, MILLISECONDS_IN_SECOND,
-        VIDEO_BIT_RATE, VIDEO_CHUNK_LEN, REBUF_PENALTY, SMOOTH_PENALTY)
+        VIDEO_BIT_RATE, VIDEO_CHUNK_LEN)
 from simulator.abr_simulator.env import Environment
 from simulator.abr_simulator.schedulers import TestScheduler
-from simulator.abr_simulator.utils import plot_abr_log  # linear_reward
+from simulator.abr_simulator.utils import plot_abr_log, linear_reward
 
 
 RESEVOIR = 5  # BB
 CUSHION = 10  # BB
 
-class BBA:
+class BBA(BaseAbr):
     abr_name = 'bba'
 
     def __init__(self, plot_flag: bool = False) -> None:
@@ -28,6 +27,14 @@ class BBA:
             rewards.append(self.test(trace, video_size_file_dir, save_dir))
         return rewards
 
+    def get_next_bitrate(self, buffer_size):
+        if buffer_size < RESEVOIR:
+            bit_rate = 0
+        elif buffer_size >= RESEVOIR + CUSHION:
+            bit_rate = A_DIM - 1
+        else:
+            bit_rate = (A_DIM - 1) * (buffer_size - RESEVOIR) / float(CUSHION)
+        return int(bit_rate)
 
     def test(self, trace: AbrTrace, video_size_file_dir: str, save_dir: str):
         os.makedirs(save_dir, exist_ok=True)
@@ -65,28 +72,18 @@ class BBA:
             time_stamp += sleep_time  # in ms
 
             # reward is video quality - rebuffer penalty
-            reward = VIDEO_BIT_RATE[bit_rate] / M_IN_K \
-                     - REBUF_PENALTY * rebuf \
-                     - SMOOTH_PENALTY * np.abs(VIDEO_BIT_RATE[bit_rate] -
-                                               VIDEO_BIT_RATE[last_bit_rate]) / M_IN_K
-            r_batch.append(reward)
+            reward = linear_reward(VIDEO_BIT_RATE[bit_rate], 
+                                   VIDEO_BIT_RATE[last_bit_rate], rebuf)
 
-            smoothness = np.abs( VIDEO_BIT_RATE[bit_rate] - VIDEO_BIT_RATE[last_bit_rate] ) / M_IN_K
+            r_batch.append(reward)
 
             last_bit_rate = bit_rate
 
             log_writer.writerow([time_stamp / M_IN_K, VIDEO_BIT_RATE[bit_rate],
                                  buffer_size, rebuf, video_chunk_size, delay,
-                                 smoothness, reward])
+                                 reward])
 
-            if buffer_size < RESEVOIR:
-                bit_rate = 0
-            elif buffer_size >= RESEVOIR + CUSHION:
-                bit_rate = A_DIM - 1
-            else:
-                bit_rate = (A_DIM - 1) * (buffer_size - RESEVOIR) / float(CUSHION)
-
-            bit_rate = int(bit_rate)
+            bit_rate = self.get_next_bitrate(buffer_size)
 
             if end_of_video:
 
