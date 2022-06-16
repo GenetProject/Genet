@@ -8,7 +8,7 @@ import time
 
 import numpy as np
 
-# from pensieve.agent_policy import Pensieve, RobustMPC
+from simulator.abr_simulator.bba import BBA
 from simulator.abr_simulator.pensieve.pensieve import Pensieve
 from simulator.abr_simulator.mpc import RobustMPC
 from simulator.abr_simulator.constants import (
@@ -34,7 +34,7 @@ def parse_args():
                         help='Optional description of the experiment.')
     # ABR related
     parser.add_argument('--abr', type=str, required=True,
-                        choices=['RobustMPC', 'RL'],
+                        choices=['RobustMPC', 'RL', 'BBA'],
                         help='ABR algorithm.')
     parser.add_argument('--actor-path', type=str, default=None,
                         help='Path to RL model.')
@@ -125,11 +125,6 @@ def make_request_handler(server_states):
                     VIDEO_BIT_RATE[post_data['lastquality']],
                     VIDEO_BIT_RATE[self.server_states['last_bit_rate']],
                     rebuffer_time / M_IN_K)
-                # VIDEO_BIT_RATE[post_data['lastquality']] / M_IN_K \
-                #     - REBUF_PENALTY * rebuffer_time / M_IN_K \
-                #     - SMOOTH_PENALTY * np.abs(
-                #     VIDEO_BIT_RATE[post_data['lastquality']] -
-                #     self.last_bit_rate) / M_IN_K
 
                 self.server_states['last_bit_rate'] = post_data['lastquality']
                 self.server_states['last_total_rebuf'] = post_data['RebufferTime']
@@ -191,22 +186,20 @@ def make_request_handler(server_states):
                      post_data['bandwidthEst'] / 1000,
                      self.server_states['future_bandwidth']])
                 if isinstance(self.abr, Pensieve):
-                    bit_rate, _ = self.abr.select_action(
-                        self.server_states['state'])
-                    bit_rate = bit_rate.item()
+                    bit_rate = self.abr.get_next_bitrate(
+                        self.server_states['state'], 
+                        self.server_states['last_bit_rate'])
                 elif isinstance(self.abr, RobustMPC):
                     last_index = int(post_data['lastRequest'])
                     future_chunk_cnt = min(self.abr.mpc_future_chunk_count,
                                            TOTAL_VIDEO_CHUNK - last_index - 1)
                     bit_rate = self.abr.get_next_bitrate(
-                        self.server_states['state'], last_index,
-                        future_chunk_cnt, np.array(
-                            [self.video_size[i]
-                             for i in sorted(self.video_size)]),
-                        post_data['lastquality'], post_data['buffer'])
+                        np.array([self.video_size[i] for i in sorted(self.video_size)]),
+                        future_chunk_cnt, post_data['buffer'], 
+                        post_data['lastquality'], last_index)
                     self.server_states['future_bandwidth'] = self.abr.future_bandwidth
-                    # print(self.server_states['state'], last_index,
-                    #       future_chunk_cnt, bit_rate)
+                elif isinstance(self.abr, BBA):
+                    bit_rate = self.abr.get_next_bitrate(self.server_states['buffer_size'])
                 else:
                     raise TypeError("Unsupported ABR type.")
 
@@ -262,7 +255,9 @@ def run_abr_server(abr, trace_file, summary_dir, actor_path,
         abr = RobustMPC()
     elif abr == 'RL':
         assert actor_path is not None, "actor-path is needed for RL abr."
-        abr = Pensieve(16, summary_dir, actor_path=actor_path)
+        abr = Pensieve(actor_path)
+    elif abr == 'BBA':
+        abr = BBA()
     else:
         raise ValueError("ABR {} is not supported!".format(abr))
 

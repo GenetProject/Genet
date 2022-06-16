@@ -25,8 +25,6 @@ from simulator.abr_simulator.constants import (
     S_LEN,
     VIDEO_BIT_RATE,
     M_IN_K,
-    REBUF_PENALTY,
-    SMOOTH_PENALTY,
     VIDEO_CHUNK_LEN,
     MILLISECONDS_IN_SECOND,
     TOTAL_VIDEO_CHUNK,
@@ -105,17 +103,12 @@ class Pensieve(BaseAbr):
     #     self.saver.restore(self.sess, model_path)
     #     print("Testing model restored.")
 
-    def get_next_bitrate(self, state):
-        bitrate, _ = self._get_next_bitrate(state, self.actor)
+    def get_next_bitrate(self, state, last_bit_rate) -> int:
+        bitrate, _ = self._get_next_bitrate(state, last_bit_rate, self.actor)
         return bitrate
 
-    def _get_next_bitrate(self, state, actor):
-        state = np.zeros((self.s_info, self.s_len))
-        last_bit_rate = 0
-
-        action_prob = actor.predict(
-            np.reshape(state, (1, self.s_info, self.s_len))
-        )
+    def _get_next_bitrate(self, state, last_bit_rate, actor):
+        action_prob = actor.predict(state)
         action_cumsum = np.cumsum(action_prob)
         if self.jump_action:
             selection = (action_cumsum > np.random.randint(
@@ -211,7 +204,9 @@ class Pensieve(BaseAbr):
                 video_chunk_remain, TOTAL_VIDEO_CHUNK,
             ) / float(TOTAL_VIDEO_CHUNK)
             
-            bit_rate, action_prob = self._get_next_bitrate(state, actor)
+            bit_rate, action_prob = self._get_next_bitrate(
+                np.reshape(state, (1, self.s_info, self.s_len)), 
+                last_bit_rate, actor)
 
             s_batch.append(state)
 
