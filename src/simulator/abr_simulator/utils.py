@@ -256,3 +256,15 @@ def plot_abr_log(trace: Optional[AbrTrace], log_file: str, save_dir: Optional[st
     if save_dir is not None:
         fig.savefig(os.path.join(save_dir, "{}.jpg".format(log_name)))
     plt.close()
+
+def construct_bitrate_chunksize_map(video_size_file_dir: str):
+    """Construct a dict mapping bitrate to video chunk size."""
+    video_size = {}  # in bytes
+    for bitrate in range(len(VIDEO_BIT_RATE)):
+        video_size[bitrate] = []
+        video_size_file = os.path.join(video_size_file_dir,
+                                       'video_size_{}'.format(bitrate))
+        with open(video_size_file, 'r') as f:
+            for line in f:
+                video_size[bitrate].append(int(line.split()[0]))
+    return video_size

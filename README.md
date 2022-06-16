@@ -142,6 +142,16 @@ bash src/drivers/abr/train_cl1.sh
 
 ## Emulation (Figure 17)
 
+## ABR
+```bash
+cd Genet/src/emulator/abr/video_server
+python video_server.py
+
+# in a new terminal
+cd Genet
+bash src/drivers/abr_emulation.sh
+```
+
 ### CC
 Please clone [this repository](https://github.com/zxxia/pantheon) and follow
 the instructions in README to install pantheon.

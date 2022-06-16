@@ -1,3 +1,4 @@
+#!/bin/bash
 
 python3 check_virtual_env.py
 if [ $? -eq 0 ]; then
@@ -11,6 +12,11 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
 
     echo "Install dependencies for stable-baselines2..."
     sudo apt-get install -y cmake libopenmpi-dev python3-dev zlib1g-dev
+
+    echo "Install mahimahi for emulation..."
+    sudo apt-get -y install mahimahi
+    sudo sysctl -w net.ipv4.ip_forward=1
+
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     # Mac OSX
     echo "Mac OSX, not supported!"
@@ -35,3 +41,7 @@ pip install tqdm==4.62.2
 pip install matplotlib==3.3.4
 pip install visdom==0.1.8.9
 pip install bayesian-optimization==1.2.0
+
+# dependencies for abr emulation
+pip install selenium==3.141.0
+pip install PyVirtualDisplay==2.0

@@ -14,6 +14,7 @@ os.environ['CUDA_VISIBLE_DEVICES'] = ''
 
 
 from simulator.abr_simulator.abr_trace import AbrTrace
+from simulator.abr_simulator.base_abr import BaseAbr
 from simulator.abr_simulator.schedulers import TestScheduler
 from simulator.abr_simulator.constants import (
     A_DIM,
@@ -24,8 +25,6 @@ from simulator.abr_simulator.constants import (
     S_LEN,
     VIDEO_BIT_RATE,
     M_IN_K,
-    REBUF_PENALTY,
-    SMOOTH_PENALTY,
     VIDEO_CHUNK_LEN,
     MILLISECONDS_IN_SECOND,
     TOTAL_VIDEO_CHUNK,
@@ -33,7 +32,7 @@ from simulator.abr_simulator.constants import (
 )
 from simulator.abr_simulator.env import Environment
 from simulator.abr_simulator.pensieve import a3c
-from simulator.abr_simulator.utils import plot_abr_log  # linear_reward
+from simulator.abr_simulator.utils import plot_abr_log, linear_reward
 
 
 BITRATE_DIM = 6
@@ -57,12 +56,12 @@ def learning_rate_decay_func(epoch):
     return rate
 
 
-class Pensieve:
+class Pensieve(BaseAbr):
 
     abr_name = "pensieve"
 
     def __init__(self, model_path: str = "", s_info: int = 6, s_len: int = 8,
-                 a_dim: int = 6, plot_flag: bool = False):
+                 a_dim: int = 6, plot_flag: bool = False, train_mode=False):
         """Penseive
         Input state matrix shape: [s_info, s_len]
 
@@ -86,9 +85,41 @@ class Pensieve:
             raise NotImplementedError
         self.plot_flag = plot_flag
 
+        self.train_mode = train_mode
+        if not self.train_mode:
+            self.sess = tf.compat.v1.Session()
+            self.actor = a3c.ActorNetwork(
+                    self.sess,
+                    state_dim=[self.s_info, self.s_len],
+                    action_dim=self.a_dim,
+                    bitrate_dim=BITRATE_DIM,
+                )
+            self.sess.run(tf.compat.v1.global_variables_initializer())
+            saver = tf.compat.v1.train.Saver(max_to_keep=None)
+            if self.model_path:
+                saver.restore(self.sess, self.model_path)
+
     # def load_model(self, model_path: str):
     #     self.saver.restore(self.sess, model_path)
     #     print("Testing model restored.")
+
+    def get_next_bitrate(self, state, last_bit_rate) -> int:
+        bitrate, _ = self._get_next_bitrate(state, last_bit_rate, self.actor)
+        return bitrate
+
+    def _get_next_bitrate(self, state, last_bit_rate, actor):
+        action_prob = actor.predict(state)
+        action_cumsum = np.cumsum(action_prob)
+        if self.jump_action:
+            selection = (action_cumsum > np.random.randint(
+                 1, RAND_RANGE) / float(RAND_RANGE)).argmax()
+            bit_rate = calculate_from_selection(selection, last_bit_rate)
+        else:
+            bit_rate = (
+                action_cumsum
+                > np.random.randint(1, RAND_RANGE) / float(RAND_RANGE)
+            ).argmax()
+        return bit_rate, action_prob
 
     def _test(self, actor: a3c.ActorNetwork, trace: AbrTrace,
               video_size_file_dir: str, save_dir: str):
@@ -141,16 +172,8 @@ class Pensieve:
             time_stamp += sleep_time  # in ms
 
             # reward is video quality - rebuffer penalty - smoothness
-            reward = (
-                VIDEO_BIT_RATE[bit_rate] / M_IN_K
-                - REBUF_PENALTY * rebuf
-                - SMOOTH_PENALTY
-                * np.abs(
-                    VIDEO_BIT_RATE[bit_rate] - VIDEO_BIT_RATE[last_bit_rate]
-                )
-                / M_IN_K
-            )
-
+            reward = linear_reward(VIDEO_BIT_RATE[bit_rate], 
+                                   VIDEO_BIT_RATE[last_bit_rate], rebuf)
             r_batch.append(reward)
 
             last_bit_rate = bit_rate
@@ -180,22 +203,10 @@ class Pensieve:
             state[5, -1] = np.minimum(
                 video_chunk_remain, TOTAL_VIDEO_CHUNK,
             ) / float(TOTAL_VIDEO_CHUNK)
-
-            action_prob = actor.predict(
-                np.reshape(state, (1, self.s_info, self.s_len))
-            )
-            action_cumsum = np.cumsum(action_prob)
-            if self.jump_action:
-                selection = (action_cumsum > np.random.randint(
-                     1, RAND_RANGE) / float(RAND_RANGE)).argmax()
-                bit_rate = calculate_from_selection(selection, last_bit_rate)
-            else:
-                bit_rate = (
-                    action_cumsum
-                    > np.random.randint(1, RAND_RANGE) / float(RAND_RANGE)
-                ).argmax()
-            # Note: we need to discretize the probability into 1/RAND_RANGE steps,
-            # because there is an intrinsic discrepancy in passing single state and batch states
+            
+            bit_rate, action_prob = self._get_next_bitrate(
+                np.reshape(state, (1, self.s_info, self.s_len)), 
+                last_bit_rate, actor)
 
             s_batch.append(state)
 
@@ -229,51 +240,22 @@ class Pensieve:
         return final_reward
 
     def test(self, trace: AbrTrace, video_size_file_dir: str, save_dir: str):
-
-        # video_count = 0
-        with tf.compat.v1.Session() as sess:
-            actor = a3c.ActorNetwork(
-                sess,
-                state_dim=[self.s_info, self.s_len],
-                action_dim=self.a_dim,
-                bitrate_dim=BITRATE_DIM,
-            )
-
-            # self.critic = a3c.CriticNetwork(
-            #     self.sess,
-            #     state_dim=[self.s_info, self.s_len],
-            #     learning_rate=CRITIC_LR_RATE,
-            #     bitrate_dim=BITRATE_DIM)
-            sess.run(tf.compat.v1.global_variables_initializer())
-            saver = tf.compat.v1.train.Saver(max_to_keep=None)
-            if self.model_path:
-                saver.restore(sess, self.model_path)
-            return self._test(actor, trace, video_size_file_dir, save_dir)
+        assert not self.train_mode
+        return self._test(self.actor, trace, video_size_file_dir, save_dir)
 
     def test_on_traces(self, traces: List[AbrTrace], video_size_file_dir: str,
                        save_dirs: List[str]):
+        assert not self.train_mode
         rewards = []
-        tf.reset_default_graph()
-        with tf.compat.v1.Session() as sess:
-            actor = a3c.ActorNetwork(
-                sess,
-                state_dim=[self.s_info, self.s_len],
-                action_dim=self.a_dim,
-                bitrate_dim=BITRATE_DIM,
-            )
-
-            sess.run(tf.compat.v1.global_variables_initializer())
-            saver = tf.compat.v1.train.Saver(max_to_keep=None)
-            if self.model_path:
-                saver.restore(sess, self.model_path)
-            for trace, save_dir in zip(traces, save_dirs):
-                rewards.append(self._test(actor, trace, video_size_file_dir, save_dir))
+        for trace, save_dir in zip(traces, save_dirs):
+            rewards.append(self.test(trace, video_size_file_dir, save_dir))
         return rewards
 
     def train(self, trace_scheduler, val_traces: List[AbrTrace],
               save_dir: str, num_agents: int, total_epoch: int,
               video_size_file_dir: str, model_save_interval: int = 1000,
               suffix: str = ""):
+        assert self.train_mode
 
         # Visdom Settings
         # vis = visdom.Visdom()
@@ -574,10 +556,8 @@ def agent(train_seq_len: int, s_info: int, s_len: int, a_dim: int,
 
             # -- linear reward --
             # reward is video quality - rebuffer penalty - smoothness
-            reward = VIDEO_BIT_RATE[bit_rate] / M_IN_K \
-                - REBUF_PENALTY * rebuf \
-                - SMOOTH_PENALTY * np.abs(VIDEO_BIT_RATE[bit_rate] -
-                                          VIDEO_BIT_RATE[last_bit_rate]) / M_IN_K
+            reward = linear_reward(VIDEO_BIT_RATE[bit_rate], 
+                                   VIDEO_BIT_RATE[last_bit_rate], rebuf)
 
             r_batch.append(reward)
             last_bit_rate = bit_rate
