@@ -19,6 +19,13 @@ cd Genet
 tar -xf models.tar.gz
 ```
 
+### Install apt packages
+
+```bash
+cd Genet
+bash install.sh
+```
+
 ### Set up python virtual environment
 - Python3 Virtual environment is highly recommended. Select one of the
   following to set up a python3 virtual environment. 
@@ -42,11 +49,12 @@ tar -xf models.tar.gz
   ```
 - Now the virtual environment is activated.
 
-## Install dependency
+## Install python dependency
 
 ```bash
 cd Genet
-bash install.sh
+# activate virtual env
+bash install_python_dependency.sh
 ```
 
 ## Unseen synthetic environments (Figure 9)
