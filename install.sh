@@ -11,6 +11,9 @@ if [[ "$OSTYPE" == "linux-gnu"* ]]; then
     sudo apt-get -y install mahimahi
     sudo sysctl -w net.ipv4.ip_forward=1
 
+    echo "Install python3 venv for emulation..."
+    sudo apt-get -y install python3-venv
+
 elif [[ "$OSTYPE" == "darwin"* ]]; then
     # Mac OSX
     echo "Mac OSX, not supported!"
