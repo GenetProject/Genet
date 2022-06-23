@@ -65,7 +65,7 @@ environments. Example figures are [here](/fig_reproduce/fig9).
 
 ### ABR
 ```bash
-cd fig_reproduce/fig9
+cd Genet/fig_reproduce/fig9
 bash run.sh
 # Please wait for 5 minutes to let the testing output finish writing.
 # Please find fig_reproduce/fig9/fig9_abr.png
@@ -84,7 +84,7 @@ python src/plot_scripts/plot_syn_dataset.py
 ```
 ### LB
 ```bash
-cd genet-lib-fig-upload
+cd Genet/genet-lib-fig-upload
 python rl_test.py --saved_model="results/testing_model/udr_1/model_ep_49600.ckpt" # example output: [-4.80, 0.07]
 python rl_test.py --saved_model="results/testing_model/udr_2/model_ep_44000.ckpt" # example output: [-3.87, 0.08]
 python rl_test.py --saved_model="results/testing_model/udr_3/model_ep_25600.ckpt" # example output: [-3.57, 0.07]
