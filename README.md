@@ -17,6 +17,14 @@ So the installation below only runs on Ubuntu.
 git clone git@github.com:GenetProject/Genet.git
 ```
 
+### Download models
+Please download models.tar.gz from [here](https://drive.google.com/file/d/1QxMLyffHlox8r6aSpVj37JEQ4_dyb2iN/view?usp=sharing)
+and untar it under ```Genet/```
+```bash
+cd Genet
+tar -xf models.tar.gz
+```
+
 ### Set up python virtual environment
 - Python3 Virtual environment is highly recommended. Select one of the
   following to set up a python3 virtual environment. 
@@ -114,8 +122,6 @@ training. Example figures are [here](/fig_reproduce/fig18).
 
 
 ### CC
-Please download models.tar.gz from [here](https://drive.google.com/file/d/1QxMLyffHlox8r6aSpVj37JEQ4_dyb2iN/view?usp=sharing)
-and untar it under ```Genet/```
 ```bash
 cd Genet
 
