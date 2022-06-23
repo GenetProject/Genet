@@ -1,6 +1,6 @@
 import os
 import matplotlib
-matplotlib.use('TKAgg')
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 plt.style.use('seaborn-deep')
 plt.rcParams['font.family'] = 'Arial'
