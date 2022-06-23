@@ -172,3 +172,14 @@ bash run_real_traces_cellular.sh # run emulation over cellular traces
 cd Genet
 python src/plot_scripts/plot_scatter.py
 ```
+
+## FAQ
+1. CUDA driver error
+
+    If the following cuda driver error message shows up, please ignore for now.
+    The final results are not affected by the error message.
+    ```bash
+     E tensorflow/stream_executor/cuda/cuda_driver.cc:318] failed call to cuInit: UNKNOWN ERROR
+    (genet) ubuntu@reproduce-genet:~/Genet/genet-lb-fig-upload$ python rl_test.py --saved_model="results/testing_model/udr_1/model_ep_49600.ckpt"
+    2022-06-23 20:46:00.130224: E tensorflow/stream_executor/cuda/cuda_driver.cc:318] failed call to cuInit: UNKNOWN ERROR
+    ```
