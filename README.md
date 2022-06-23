@@ -3,18 +3,12 @@
 ## Installation
 
 ### Operating system information
-Simulation and training experiments were done in a Ubuntu server with
-- **Kernal version**: #184-Ubuntu SMP Thu Mar 24 17:48:36 UTC 2022
-- **CPU INFO**:
-    - Architecture:        x86_64
-    - CPU(s):              32
-    - Model name:          Intel(R) Xeon(R) Silver 4110 CPU @ 2.10GHz
-So the installation below only runs on Ubuntu.
+Ubuntu 18.04
 
 ### Download the source code
 
 ```bash
-git clone git@github.com:GenetProject/Genet.git
+git clone https://github.com/GenetProject/Genet.git 
 ```
 
 ### Download models
