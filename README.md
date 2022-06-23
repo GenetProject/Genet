@@ -49,7 +49,7 @@ bash install.sh
   ```
 - Now the virtual environment is activated.
 
-## Install python dependency
+### Install python dependency
 
 ```bash
 cd Genet
