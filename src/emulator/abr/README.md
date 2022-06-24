@@ -61,6 +61,7 @@ python print_each_dim_fcc.py
 # Output of bitrate, rebuf: ['sim_BBA: bitrate: 1.2% rebuf: 0.05848', 'sim_RobustMPC: bitrate: 1.22% rebuf: 0.03195', 'sim_udr_1: bitrate:
  1.2% rebuf: 0.03384', 'sim_udr_2: bitrate: 1.04% rebuf: 0.01955', 'sim_udr_3: bitrate: 1.1% rebuf: 0.02367', 'sim_adr: bitrate: 1.11% rebuf: 0.01486']
 ```
+Note: we will remove the Fugu point in the camera ready version since we only have its results on FCC trace, not on Norway.
 
 ## Fig.17 (d) data with results log
 ```

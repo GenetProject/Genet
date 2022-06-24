@@ -36,12 +36,15 @@ def main():
 
     fcc_bba_bitrate ,fcc_bba_rebuf = 1.2 , 0.058
     fcc_mpc_bitrate ,fcc_mpc_rebuf = 1.22 ,0.033
+    fcc_oboe_bitrate ,fcc_oboe_rebuf = 1.16 , 0.021
+
 
 
     msize = 200
 
     ax1.scatter( [fcc_bba_rebuf],[fcc_bba_bitrate] ,marker='d' ,color='C0' ,s=msize ,label='BBA' )
     ax1.scatter( [fcc_mpc_rebuf] ,[fcc_mpc_bitrate] ,marker='>' ,color='C1' ,s=msize ,label='MPC' )
+    ax1.scatter( [fcc_oboe_rebuf] ,[fcc_oboe_bitrate] ,marker='v' ,color='darkorange' ,s=msize ,label='Oboe' )
     ax1.scatter( [fcc_udr1_rebuf] , [fcc_udr1_bitrate] ,marker='^' ,color='C3' ,s=msize ,label='RL1' )
     ax1.scatter( [fcc_udr2_rebuf] ,[fcc_udr2_bitrate] ,marker='<' ,color='C4' ,s=msize ,label='RL2' )
     ax1.scatter( [fcc_udr3_rebuf] , [fcc_udr3_bitrate] , marker='p' ,color='C5' ,s=msize ,label='RL3' )
@@ -49,7 +52,7 @@ def main():
 
     ax1.annotate('BBA', ( fcc_bba_rebuf, fcc_bba_bitrate-0.03))
     ax1.annotate('MPC', ( fcc_mpc_rebuf, fcc_mpc_bitrate-0.01))
-
+    ax1.annotate('Oboe', (fcc_oboe_rebuf+0.004, fcc_oboe_bitrate-0.025))
     ax1.annotate('RL1', (fcc_udr1_rebuf+0.002, fcc_udr1_bitrate-0.03))
     ax1.annotate('RL2', (fcc_udr2_rebuf+0.003, fcc_udr2_bitrate+0.01))
     ax1.annotate('RL3', (fcc_udr3_rebuf+0.007, fcc_udr3_bitrate-0.01))
@@ -91,10 +94,11 @@ def main():
 
     norway_bba_bitrate ,norway_bba_rebuf = 1.03 ,0.077
     norway_mpc_bitrate ,norway_mpc_rebuf = 1.05 ,0.054
+    norway_oboe_bitrate ,norway_oboe_rebuf = 1.04 ,0.051
 
     ax2.scatter( [norway_bba_rebuf], [norway_bba_bitrate] ,marker='d', color='C0', s=msize ,label='BBA' )
     ax2.scatter( [norway_mpc_rebuf] ,[norway_mpc_bitrate] ,marker='>' ,color='C1',s=msize ,label='MPC' )
-
+    ax2.scatter( [norway_oboe_rebuf] ,[norway_oboe_bitrate] ,marker='v' ,color='darkorange',s=msize ,label='Oboe' )
     ax2.scatter( [norway_udr1_rebuf] ,[norway_udr1_bitrate] ,marker='^' ,color='C3',s=msize ,label='RL1' )
     ax2.scatter( [norway_udr2_rebuf] ,[norway_udr2_bitrate] ,marker='<' ,color='C4',s=msize ,label='RL2' )
     ax2.scatter( [norway_udr3_rebuf] ,[norway_udr3_bitrate] ,marker='p' ,color='C5',s=msize ,label='RL3' )
@@ -102,6 +106,7 @@ def main():
 
     ax2.annotate('BBA', (norway_bba_rebuf+0.0001, norway_bba_bitrate-0.015))
     ax2.annotate('MPC', (norway_mpc_rebuf+0.005, norway_mpc_bitrate-0.02))
+    ax2.annotate('Oboe', ( norway_oboe_rebuf+0.001, norway_oboe_bitrate-0.015))
     ax2.annotate('RL1', (norway_udr1_rebuf-0.001, norway_udr1_bitrate-0.01))
     ax2.annotate('RL2', (norway_udr2_rebuf+0.003, norway_udr2_bitrate+0.01))
     ax2.annotate('RL3', (norway_udr3_rebuf+0.006, norway_udr3_bitrate))
