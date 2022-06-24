@@ -81,7 +81,8 @@ cd Genet # cd into the project root
 python src/simulator/evaluate_synthetic_traces.py \
   --save-dir results/cc/evaluate_synthetic_dataset \
   --dataset-dir data/cc/synthetic_dataset
-# Please find fig_reproduce/fig9/fig9_cc.png
+# Please find fig_reproduce/fig9/fig9_cc.png. The result difference may be 
+# caused by randomness.
 python src/plot_scripts/plot_syn_dataset.py
 ```
 ### LB
