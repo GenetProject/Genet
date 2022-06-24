@@ -143,6 +143,9 @@ src/experiments/setup.py --install-deps --schemems "cubic bbr copa vivace aurora
 src/experiments/setup.py --setup --schemems "cubic bbr copa vivace aurora vivace_loss vivace_latency"
 ```
 
+Download dataset from [here](https://drive.google.com/drive/u/1/folders/19anUdhpYTGQIuyra-dei41s_3Fr_WWxr)
+to ```pantheon``` and ```cd panthon && tar -xf data.tar.gz```.
+
 Run the following commands in to emulate.
 Expected time usage: 19hr
 ```bash
