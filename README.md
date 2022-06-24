@@ -136,8 +136,14 @@ cd pantheon
 git fetch && git checkout artifact  # swtich to the correct branch
 ./tools/fetch_submodules.sh  # fetch cc algorithms as submodules
 ./tools/install_deps.sh  # install apt dependencies
-virtualenv -p python2 ../pantheon_venv  # create py2 venv for pantheon
-source ../pantheon_venv/bin/activate  # activate py2 venv
+```
+Install python dependencies.
+```bash
+cd pantheon && cd ..
+virtualenv -p python2 pantheon_venv  # create py2 venv for pantheon
+echo "[absolute path]/pantheon" > pantheon_venv/lib/[python version]/site-packages/pantheon.pth
+source pantheon_venv/bin/activate  # activate py2 venv
+cd pantheon
 ./tools/install_py2_deps.sh  # install apt dependencies
 src/experiments/setup.py --install-deps --schemems "cubic bbr copa vivace aurora vivace_loss vivace_latency"
 src/experiments/setup.py --setup --schemems "cubic bbr copa vivace aurora vivace_loss vivace_latency"
