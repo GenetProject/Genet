@@ -145,14 +145,17 @@ python src/plot_scripts/plot_scatter.py
 ```
 
 ## Learning curves (Figure 18)
-Figure 18 takes long time to evaluate so we think it is optional. 
+Figure 18 is optional because the ramp-up or convergence speed on a
+learning curve is not one of our primary claims, i.e., Genet leads to better
+asymptotic performance and generalization.
 Example figures are [here](/fig_reproduce/fig18). Training from
 scratch is optional.
 
 
 ### CC
-
-Running pretrained model
+Running pretrained model.
+Expected time usage: 5hr on a VM with 32 vCPUs by sequentially running the
+following scrits.
 ```bash
 cd Genet
 
