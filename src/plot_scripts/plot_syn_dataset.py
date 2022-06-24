@@ -164,7 +164,7 @@ def main():
     udr2_rewards, udr2_tputs, udr2_lats, udr2_losses, udr2_low_bnd, udr2_up_bnd, \
     udr2_tputs_low_bnd, udr2_tputs_up_bnd, \
     udr2_lats_low_bnd, udr2_lats_up_bnd, \
-    udr2_losses_low_bnd, udr2_losses_up_bnd = load_results(save_dirs, [10, 30, 40, 50, 60], udr_steps, 'udr2')
+    udr2_losses_low_bnd, udr2_losses_up_bnd = load_results(save_dirs, [10, 20, 30, 40, 50], udr_steps, 'udr2')
     udr2_rewards_err = (udr2_up_bnd[0] - udr2_low_bnd[0]) / 2
 
     udr3_rewards, udr3_tputs, udr3_lats, udr3_losses, udr3_low_bnd, udr3_up_bnd, \
