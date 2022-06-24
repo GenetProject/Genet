@@ -120,40 +120,6 @@ python src/plot_scripts/plot_bars_cellular.py
 ```
 
 
-## Learning curves (Figure 18)
-We choose Figure 18 to reproduce because it shows how Genet helps model 
-training. Example figures are [here](/fig_reproduce/fig18). Training from
-scratch is optional.
-
-
-### CC
-```bash
-cd Genet
-
-bash src/drivers/cc/run_for_learning_curve.sh
-python src/plot_scripts/plot_learning_curve.py
-
-# Training model from scratch is optinal
-# Expected time usage: 21hr on a VM with 32 vCPUs by sequentially running the
-# following scripts.
-
-bash src/drivers/cc/train_udr3.sh
-bash src/drivers/cc/train_genet.sh
-bash src/drivers/cc/train_cl1.sh
-bash src/drivers/cc/train_cl2.sh
-bash src/drivers/cc/train_cl3.sh
-```
-
-### ABR
-```bash
-cd Genet
-
-# Train from scratch? run the following commands
-bash src/drivers/abr/train_udr3.sh
-bash src/drivers/abr/train_genet.sh
-bash src/drivers/abr/train_cl1.sh
-```
-
 ## Emulation (Figure 17)
 
 ## ABR
@@ -176,6 +142,43 @@ bash run_real_traces_ethernet.sh # run emulation over ethernet traces
 bash run_real_traces_cellular.sh # run emulation over cellular traces
 cd Genet
 python src/plot_scripts/plot_scatter.py
+```
+
+## Learning curves (Figure 18)
+Figure 18 takes long time to evaluate so we think it is optional. 
+Example figures are [here](/fig_reproduce/fig18). Training from
+scratch is optional.
+
+
+### CC
+
+Running pretrained model
+```bash
+cd Genet
+
+bash src/drivers/cc/run_for_learning_curve.sh
+python src/plot_scripts/plot_learning_curve.py
+```
+
+Training model from scratch is optinal
+Expected time usage: 21hr on a VM with 32 vCPUs by sequentially running the
+following scripts.
+```bash
+bash src/drivers/cc/train_udr3.sh
+bash src/drivers/cc/train_genet.sh
+bash src/drivers/cc/train_cl1.sh
+bash src/drivers/cc/train_cl2.sh
+bash src/drivers/cc/train_cl3.sh
+```
+
+### ABR
+```bash
+cd Genet
+
+# Train from scratch? run the following commands
+bash src/drivers/abr/train_udr3.sh
+bash src/drivers/abr/train_genet.sh
+bash src/drivers/abr/train_cl1.sh
 ```
 
 ## FAQ
