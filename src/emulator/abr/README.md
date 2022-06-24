@@ -1,4 +1,11 @@
 # ABR emulator
+We provide two options:
+1. Run the full emulation.
+2. Replot our emulation results. 
+
+Since the full emulation running takes more than a day, the second option is faster for replotting.
+
+# Run the full emulation
 ## Install
 ```
 sudo apt update
@@ -50,10 +57,8 @@ Open another terminal for virtual browser
 ```
 bash pensieve/drivers/run_mahimahi_emulation_ADR.sh  --port=8000 > /dev/null 2>&1 &
 ```
-
-Note: since the full emulation running takes more than a day, we provide our log here for replotting.
-
-## Fig.17 (c) data with results log
+# Replot our emulation results
+## Fig.17 (c) data
 ```
 cd analysis
 python print_each_dim_fcc.py
@@ -63,7 +68,7 @@ python print_each_dim_fcc.py
 ```
 Note: we will remove the Fugu point in the camera ready version since we only have its results on FCC trace, not on Norway.
 
-## Fig.17 (d) data with results log
+## Fig.17 (d) data
 ```
 cd analysis
 python print_each_dim_norway.py

@@ -123,7 +123,7 @@ python src/plot_scripts/plot_bars_cellular.py
 ## Emulation (Figure 17)
 
 ## ABR
-Please follow the README under 'src/emulator/abr/'
+Please follow the [README](https://github.com/GenetProject/Genet/tree/main/src/emulator/abr#readme) under ```src/emulator/abr/```
 
 ### CC
 Please clone [this repository](https://github.com/zxxia/pantheon) and follow
