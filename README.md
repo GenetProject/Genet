@@ -3,7 +3,9 @@
 ## Installation
 
 ### Operating system information
-Ubuntu 18.04
+Ubuntu 18.04. A large VM is preferred, e.g., reproducing Figure 9 CC takes
+about 20 minutes on a VM with 96 vCPUs or 1 hour on a VM with 32 vCPUs. We
+assume a VM with 32 vCPUs is used for the instructions below.
 
 ### Download the source code
 
@@ -72,10 +74,11 @@ bash run.sh
 ```
 
 ### CC
+Time usage: 60 min on a VIM with 32 vCPUs.
 ```bash
 cd Genet # cd into the project root
-
-# time usage: about 60 min
+# Evaluate rl1, rl2, rl3, and genet models with 5 different seeds on ~500
+# synthetic traces
 python src/simulator/evaluate_synthetic_traces.py \
   --save-dir results/cc/evaluate_synthetic_dataset \
   --dataset-dir data/cc/synthetic_dataset
