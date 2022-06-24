@@ -127,16 +127,35 @@ python src/plot_scripts/plot_bars_cellular.py
 Please follow the [README](https://github.com/GenetProject/Genet/tree/main/src/emulator/abr#readme) under ```src/emulator/abr/```
 
 ### CC
-Please clone [this repository](https://github.com/zxxia/pantheon) and follow
-the instructions in README to install pantheon.
+Please run the following commands in to install pantheon.
 ```bash
+deactivate # only deactivate when "genet" python3 virtual environment is activated
+cd Genet && cd ..  # under the same parenet folder of Genet/
 git clone https://github.com/zxxia/pantheon
-cd pantheon/drivers/post_nsdi/
-bash run_real_traces_ethernet.sh # run emulation over ethernet traces
-bash run_real_traces_cellular.sh # run emulation over cellular traces
-cd Genet
-python src/plot_scripts/plot_scatter.py
+cd pantheon
+git fetch && git checkout artifact  # swtich to the correct branch
+./tools/fetch_submodules.sh  # fetch cc algorithms as submodules
+./tools/install_deps.sh  # install apt dependencies
+virtualenv -p python2 ../pantheon_venv  # create py2 venv for pantheon
+source ../pantheon_venv/bin/activate  # activate py2 venv
+./tools/install_py2_deps.sh  # install apt dependencies
+src/experiments/setup.py --install-deps --schemems "cubic bbr copa vivace aurora vivace_loss vivace_latency"
+src/experiments/setup.py --setup --schemems "cubic bbr copa vivace aurora vivace_loss vivace_latency"
 ```
+
+Run the following commands in to emulate.
+Expected time usage: 19hr
+```bash
+cd pantheon
+# run emulation over ethernet traces
+bash drivers/post_nsdi/run_real_traces_ethernet_rule_based.sh 
+bash drivers/post_nsdi/run_real_traces_ethernet_genet.sh 
+bash drivers/post_nsdi/run_real_traces_ethernet_rl.sh
+bash drivers/post_nsdi/run_real_traces_ethernet_cl.sh
+```
+<!-- bash run_real_traces_cellular.sh # run emulation over cellular traces -->
+<!-- cd Genet -->
+<!-- python src/plot_scripts/plot_scatter.py -->
 
 ## Learning curves (Figure 18)
 Figure 18 is optional because the ramp-up or convergence speed on a
