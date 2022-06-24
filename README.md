@@ -113,8 +113,8 @@ bash run.sh
 ### CC
 ```bash
 cd Genet # cd into the project root
-python src/plot_scripts/plot_ethernet_bars.py
-python src/plot_scripts/plot_cellular_bars.py
+python src/plot_scripts/plot_bars_ethernet.py
+python src/plot_scripts/plot_bars_cellular.py
 
 # Please find fig_reproduce/fig13/fig13_cc_ethernet.png and 
 # fig_reproduce/fig13/fig13_cc_cellular.png
@@ -167,7 +167,6 @@ bash src/drivers/abr_emulation.sh
 Please clone [this repository](https://github.com/zxxia/pantheon) and follow
 the instructions in README to install pantheon.
 ```bash
-cd Genet && cd ..
 git clone https://github.com/zxxia/pantheon
 cd pantheon/drivers/post_nsdi/
 bash run_real_traces_ethernet.sh # run emulation over ethernet traces
