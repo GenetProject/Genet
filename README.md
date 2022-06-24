@@ -123,14 +123,7 @@ python src/plot_scripts/plot_bars_cellular.py
 ## Emulation (Figure 17)
 
 ## ABR
-```bash
-cd Genet/src/emulator/abr/video_server
-python video_server.py
-
-# in a new terminal
-cd Genet
-bash src/drivers/abr_emulation.sh
-```
+Please follow the [README](https://github.com/GenetProject/Genet/tree/main/src/emulator/abr#readme) under ```src/emulator/abr/```
 
 ### CC
 Please clone [this repository](https://github.com/zxxia/pantheon) and follow
