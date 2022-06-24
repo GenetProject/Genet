@@ -15,6 +15,7 @@ plt.rcParams['svg.fonttype'] = 'none'
 SAVE_ROOT = "figs/"
 
 def main():
+    os.makedirs( SAVE_ROOT ,exist_ok=True )
 
 
     # ['sim_BBA: bitrate: 1.2% rebuf: 0.0585' ,'sim_RobustMPC: bitrate: 1.22% rebuf: 0.033' ,
