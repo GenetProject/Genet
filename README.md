@@ -122,7 +122,7 @@ python src/plot_scripts/plot_bars_cellular.py
 
 ## Learning curves (Figure 18)
 We choose Figure 18 to reproduce because it shows how Genet helps model 
-training. Example figures are [here](/fig_reproduce/fig18). Training  from
+training. Example figures are [here](/fig_reproduce/fig18). Training from
 scratch is optional.
 
 
@@ -132,6 +132,10 @@ cd Genet
 
 bash src/drivers/cc/run_for_learning_curve.sh
 python src/plot_scripts/plot_learning_curve.py
+
+# Training model from scratch is optinal
+# Expected time usage: 21hr on a VM with 32 vCPUs by sequentially running the
+# following scripts.
 
 bash src/drivers/cc/train_udr3.sh
 bash src/drivers/cc/train_genet.sh
