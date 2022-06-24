@@ -73,7 +73,7 @@ bash run.sh
 ```
 
 ### CC
-Time usage: 60 min on a VIM with 32 vCPUs.
+Time usage: 60 min on a VM with 32 vCPUs.
 ```bash
 cd Genet # cd into the project root
 # Evaluate rl1, rl2, rl3, and genet models with 5 different seeds on ~500
