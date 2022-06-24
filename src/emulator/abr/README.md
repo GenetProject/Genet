@@ -38,7 +38,7 @@ ex: xx.x.xxx.xxx
 https://chromedriver.storage.googleapis.com/index.html?path=xx.x.xxx.xxx/
 ```
 
-# Go to folder and download the chromedriver for linux:
+## Go to folder and download the chromedriver for linux:
 ```
 cd pensieve/virtual_browser/abr_browser_dir
 wget [chromedriver_linux64.zip link]
