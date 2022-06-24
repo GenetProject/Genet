@@ -9,7 +9,7 @@ from common.utils import compute_std_of_mean, load_summary, pcc_aurora_reward
 from simulator.trace import Trace
 from simulator.synthetic_dataset import SyntheticDataset
 
-SAVE_DIR = '/datamirror/zxxia/PCC-RL/results_1006/evaluate_synthetic_dataset'
+# SAVE_DIR = '/datamirror/zxxia/PCC-RL/results_1006/evaluate_synthetic_dataset'
 
 # plt.rcParams['font.family'] = 'Times New Roman'
 plt.rcParams['font.size'] = 42
@@ -119,7 +119,7 @@ def load_results(save_dirs, seeds, steps, name: str):
             avg_lats_across_seeds.append(np.nanmean(np.array(tmp_lats)))
             avg_losses_across_seeds.append(np.nanmean(np.array(tmp_losses)))
 
-        print(name, avg_rewards_across_seeds)
+        # print(name, avg_rewards_across_seeds)
         rewards.append(np.nanmean(np.array(avg_rewards_across_seeds)))
         reward_errs.append(compute_std_of_mean(avg_rewards_across_seeds))
 
@@ -150,8 +150,8 @@ def load_results(save_dirs, seeds, steps, name: str):
 
 def main():
     save_dirs = []
-    dataset = SyntheticDataset.load_from_dir('data/synthetic_dataset')
-    save_dirs = [os.path.join('results/evaluate_synthetic_dataset', 'trace_{:05d}'.format(i))
+    dataset = SyntheticDataset.load_from_dir('data/cc/synthetic_dataset')
+    save_dirs = [os.path.join('results/cc/evaluate_synthetic_dataset', 'trace_{:05d}'.format(i))
                  for i in range(len(dataset))]
 
     udr_steps = [720000]
