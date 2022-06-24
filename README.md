@@ -29,13 +29,12 @@ bash install.sh
 ```
 
 ### Set up python virtual environment
-- Python3 Virtual environment is highly recommended. Select one of the
-  following to set up a python3 virtual environment. 
-  - [venv](https://docs.python.org/3.7/library/venv.html) only
-  ```bash
-  python3 -m venv genet
-  echo "[absolute path]/Genet/src" > genet/lib/[python version]/site-packages/genet.pth
-  source genet/bin/activate
+Python3 Virtual environment is highly recommended.
+[venv](https://docs.python.org/3.7/library/venv.html) only
+```bash
+python3 -m venv genet
+echo "[absolute path]/Genet/src" > genet/lib/[python version]/site-packages/genet.pth
+source genet/bin/activate
   ```
   <!-- - [virtualenv](https://virtualenv.pypa.io/en/latest/) only -->
   <!-- ```bash -->
@@ -123,7 +122,8 @@ python src/plot_scripts/plot_bars_cellular.py
 
 ## Learning curves (Figure 18)
 We choose Figure 18 to reproduce because it shows how Genet helps model 
-training. Example figures are [here](/fig_reproduce/fig18).
+training. Example figures are [here](/fig_reproduce/fig18). Training  from
+scratch is optional.
 
 
 ### CC
@@ -133,7 +133,6 @@ cd Genet
 bash src/drivers/cc/run_for_learning_curve.sh
 python src/plot_scripts/plot_learning_curve.py
 
-# Train from scratch? run the following commands
 bash src/drivers/cc/train_udr3.sh
 bash src/drivers/cc/train_genet.sh
 bash src/drivers/cc/train_cl1.sh
