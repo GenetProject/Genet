@@ -37,18 +37,18 @@ bash install.sh
   echo "[absolute path]/Genet/src" > genet/lib/[python version]/site-packages/genet.pth
   source genet/bin/activate
   ```
-  - [virtualenv](https://virtualenv.pypa.io/en/latest/) only
-  ```bash
-  virtualenv -p python3 genet
-  echo "[absolute path]/Genet/src" > genet/lib/[python version]/site-packages/genet.pth
-  source genet/bin/activate
-  ```
-  - [virtualenv](https://virtualenv.pypa.io/en/latest/) and [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/)
-  ```bash
-  mkvirtualenv -a Genet/ -p python3 genet
-  workon genet
-  add2virtualenv src/
-  ```
+  <!-- - [virtualenv](https://virtualenv.pypa.io/en/latest/) only -->
+  <!-- ```bash -->
+  <!-- virtualenv -p python3 genet -->
+  <!-- echo "[absolute path]/Genet/src" > genet/lib/[python version]/site-packages/genet.pth -->
+  <!-- source genet/bin/activate -->
+  <!-- ``` -->
+  <!-- - [virtualenv](https://virtualenv.pypa.io/en/latest/) and [virtualenvwrapper](https://virtualenvwrapper.readthedocs.io/en/latest/) -->
+  <!-- ```bash -->
+  <!-- mkvirtualenv -a Genet/ -p python3 genet -->
+  <!-- workon genet -->
+  <!-- add2virtualenv src/ -->
+  <!-- ``` -->
 - Now the virtual environment is activated.
 
 ### Install python dependency
