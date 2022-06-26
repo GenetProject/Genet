@@ -81,7 +81,9 @@ bash run.sh
 Please find ```fig_reproduce/fig9/fig9_cc.png```. The result difference may be 
 caused by randomness.
 
-To get a fast version with 1 seed on 50 synthetic traces
+To get a fast version with 1 seed on 50 synthetic traces, results are slightly
+different but with the correct trend.
+
 Time usage: 2 min on a VM with 32 vCPUs.
 ```bash
 cd Genet # cd into the project root
@@ -93,6 +95,7 @@ python src/plot_scripts/plot_syn_dataset.py
 ```
 
 To get a complete version with 5 different seeds on ~500 synthetic traces
+
 Time usage: 60 min on a VM with 32 vCPUs.
 ```bash
 cd Genet # cd into the project root
@@ -104,6 +107,7 @@ python src/plot_scripts/plot_syn_dataset.py
 
 ### LB
 Time usage: ~10 min on a VM with 32 vCPUs.
+
 Please find ```fig_reproduce/fig9/fig9_lb.png```
 ```bash
 cd Genet/genet-lb-fig-upload
@@ -123,28 +127,32 @@ python rl_test.py --saved_model="results/testing_model/adr/model_ep_20200.ckpt"
 python analysis/fig9_lb.py
 ```
 
-## Reproduce Figure 13
+## Generalizability(Figure 13)
 We choose Figure 13 to reproduce because it is the first evaluation figure 
 which shows how Genet training improves models' generalizability. Example
 figures are at [here](/fig_reproduce/fig13).
 
 ### ABR
+Time usage: ~5min on a VM with 32 vCPUs.
+
+Please find ```fig_reproduce/fig13/fig13_abr_fcc.png``` and 
+```fig_reproduce/fig13/fig13_abr_norway.png```.
+
 ```bash
 cd Genet/fig_reproduce/fig13
 bash run.sh
-# Please wait for 15 minutes to let the testing output finish writing
-# Please find fig_reproduce/fig13/fig13_abr_fcc.png and 
-# fig_reproduce/fig13/fig13_abr_norway.png
 ```
 
 ### CC
+Time usage: ~5min on a VM with 32 vCPUs.
+
+Please find ```fig_reproduce/fig13/fig13_cc_ethernet.png``` and 
+```fig_reproduce/fig13/fig13_cc_cellular.png```.
+
 ```bash
 cd Genet # cd into the project root
 python src/plot_scripts/plot_bars_ethernet.py
 python src/plot_scripts/plot_bars_cellular.py
-
-# Please find fig_reproduce/fig13/fig13_cc_ethernet.png and 
-# fig_reproduce/fig13/fig13_cc_cellular.png
 ```
 
 
