@@ -14,8 +14,9 @@ git clone https://github.com/GenetProject/Genet.git
 ```
 
 ### Download models
-Please download models.tar.gz from [here](https://drive.google.com/file/d/1QxMLyffHlox8r6aSpVj37JEQ4_dyb2iN/view?usp=sharing)
-and untar it under ```Genet/```
+Please download ```models.tar.gz``` from [here](https://drive.google.com/file/d/1QxMLyffHlox8r6aSpVj37JEQ4_dyb2iN/view?usp=sharing) to your local machine.
+Then use tools like ```scp``` and ```rsync``` to upload ```models.tar.gz``` to
+```Genet/``` folder of the testing VM. 
 ```bash
 cd Genet
 tar -xf models.tar.gz
