@@ -55,11 +55,10 @@ source genet/bin/activate
 - Now the virtual environment is activated.
 
 ### Install python dependency
-
 ```bash
 cd Genet
 # activate virtual env
-bash install_python_dependency.sh
+bash install_python_dependency.sh  # should take 2~3min
 ```
 
 ## Unseen synthetic environments (Figure 9)
