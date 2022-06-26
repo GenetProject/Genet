@@ -5,6 +5,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import numpy as np
 from common.utils import compute_std_of_mean
+import pandas as pd
 
 
 plt.style.use('seaborn-deep')
@@ -19,18 +20,6 @@ HATCHES = ['/', '\\', 'x', 'o', '.', 'O', '-', '*', '+']
 WIDTH = 0.3
 
 
-genet_reward = 223.88
-genet_reward_err = 8.05
-udr1_reward = 136.81
-udr1_reward_err = 23.61
-udr2_reward = 158.48
-udr2_reward_err = 17.71
-udr3_reward = 159.34
-udr3_reward_err = 22.83
-real_reward = 191.61
-real_reward_err = 3.88      # 26.39   250.47  0.02
-
-
 
 column_wid = 0.7
 capsize_wid = 8
@@ -42,6 +31,38 @@ def generalization_test_ethernet():
     plt.rcParams['axes.titlesize'] = 36
     plt.rcParams['legend.fontsize'] = 36
     fig, ax = plt.subplots(figsize=(9, 5))
+    df_genet_10 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/genet/seed_10/summary_no_start_effect.csv')
+    df_genet_20 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/genet/seed_20/summary_no_start_effect.csv')
+    df_genet_30 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/genet/seed_30/summary_no_start_effect.csv')
+
+    df_udr1_10 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr1/seed_10/summary_no_start_effect.csv')
+    df_udr1_20 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr1/seed_20/summary_no_start_effect.csv')
+    df_udr1_30 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr1/seed_30/summary_no_start_effect.csv')
+
+    udr1_reward = np.mean([df_udr1_10['aurora_normalized_reward'].mean(), df_udr1_30['aurora_normalized_reward'].mean(), df_udr1_30['aurora_normalized_reward'].mean()])
+    udr1_reward_err = np.std([df_udr1_10['aurora_normalized_reward'].mean(), df_udr1_30['aurora_normalized_reward'].mean(), df_udr1_30['aurora_normalized_reward'].mean()]) / np.sqrt(3)
+
+    df_udr2_10 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr2/seed_10/summary_no_start_effect.csv')
+    df_udr2_20 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr2/seed_20/summary_no_start_effect.csv')
+    df_udr2_30 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr2/seed_30/summary_no_start_effect.csv')
+    
+    udr2_reward = np.mean([df_udr2_10['aurora_normalized_reward'].mean(), df_udr2_20['aurora_normalized_reward'].mean(), df_udr2_30['aurora_normalized_reward'].mean()])
+    udr2_reward_err = np.std([df_udr2_10['aurora_normalized_reward'].mean(), df_udr2_20['aurora_normalized_reward'].mean(), df_udr2_30['aurora_normalized_reward'].mean()]) / np.sqrt(3)
+
+    df_udr3_10 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr3/seed_10/summary_no_start_effect.csv')
+    df_udr3_20 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr3/seed_20/summary_no_start_effect.csv')
+    df_udr3_30 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr3/seed_30/summary_no_start_effect.csv')
+
+    udr3_reward = np.mean([df_udr3_10['aurora_normalized_reward'].mean(), df_udr3_20['aurora_normalized_reward'].mean(), df_udr3_30['aurora_normalized_reward'].mean(),])
+    udr3_reward_err = np.std([df_udr3_10['aurora_normalized_reward'].mean(), df_udr3_20['aurora_normalized_reward'].mean(), df_udr3_30['aurora_normalized_reward'].mean(),]) / np.sqrt(3)
+
+    df_real_10 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/real/seed_10/summary_no_start_effect.csv')
+    df_real_20 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/real/seed_20/summary_no_start_effect.csv')
+    df_real_30 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/real/seed_30/summary_no_start_effect.csv')
+
+    real_reward = np.mean([df_real_10['aurora_normalized_reward'].mean(), df_real_20['aurora_normalized_reward'].mean(), df_real_30['aurora_normalized_reward'].mean()])
+    real_reward_err = np.std([df_real_10['aurora_normalized_reward'].mean(), df_real_20['aurora_normalized_reward'].mean(), df_real_30['aurora_normalized_reward'].mean()]) / np.sqrt(3)
+    
     bars = ax.bar([1, 2, 3, 4],
            [udr1_reward, udr2_reward, udr3_reward, real_reward],
            yerr=[udr1_reward_err, udr2_reward_err, udr3_reward_err,
