@@ -24,3 +24,5 @@ pip install bayesian-optimization==1.2.0
 # dependencies for abr emulation
 pip install selenium==3.141.0
 pip install PyVirtualDisplay==2.0
+pip install xvfbwrapper
+pip install torch

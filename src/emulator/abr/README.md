@@ -10,7 +10,9 @@ Since the full emulation running takes more than a day, the second option is fas
 ```bash
 sudo add-apt-repository universe
 sudo apt-get update
-sudo apt-get -y install mahimahi xvfb chromium-chromedriver python3-pip python3-tk
+sudo apt-get -y install mahimahi xvfb chromium-chromedriver python3-pip python3-tk unzip
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo apt-get -yf install ./google-chrome-stable_current_amd64.deb
 pip3 install virtualenv
 
 virtualenv tf_venv
@@ -21,24 +23,24 @@ pip3 install numpy tensorflow==1.15.0 selenium pyvirtualdisplay numba torch tfle
 
 ## Go to folder and download the chromedriver for linux:
 ```bash
-cd Genet/src/abr/emulator/pensieve/virtual_browser/abr_browser_dir
+cd Genet/src/emulator/abr/pensieve/virtual_browser/abr_browser_dir
 
 chrome_version=$(google-chrome --version | awk '{print $3}')
 wget https://chromedriver.storage.googleapis.com/${chrome_version}/chromedriver_linux64.zip
-unzip chromedriver_linux64.zip (cover the old one if needed)
+unzip chromedriver_linux64.zip # (overwrite the old one if needed)
 ```
 
 ## Run a ABR emulation example
 
 Open one terminal for video server
 ```bash
-cd Genet/src/abr/emulator/pensieve/video_server
+cd Genet/src/emulator/abr/pensieve/video_server
 python video_server.py  --port=8000
 ```
 
 Open another terminal for virtual browser
 ```bash
-cd Genet/src/abr/emulator
+cd Genet/src/emulator/abr
 bash pensieve/drivers/run_mahimahi_emulation_ADR.sh  --port=8000 > /dev/null 2>&1 &
 ```
 
