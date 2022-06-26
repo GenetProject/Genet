@@ -20,7 +20,7 @@ virtualenv tf_venv
 echo "$(pwd)/Genet/src/emulator/abr" > tf_venv/lib/python3.6/site-packages/abr_emu.pth
 source tf_venv/bin/activate
 
-pip3 install numpy tensorflow==1.15.0 selenium pyvirtualdisplay numba torch tflearn xvfbwrapper
+pip3 install numpy tensorflow==1.15.0 selenium pyvirtualdisplay numba torch tflearn xvfbwrapper matplotlib
 ```
 
 ## Go to folder and download the chromedriver for linux:
@@ -43,7 +43,7 @@ python video_server.py  --port=8000
 Open another terminal for virtual browser
 ```bash
 cd Genet/src/emulator/abr
-bash pensieve/drivers/run_mahimahi_emulation_ADR.sh  --port=8000 > /dev/null 2>&1 &
+bash pensieve/drivers/run_mahimahi_emulation_ADR.sh  --port=8000
 ```
 
 # Replot our emulation results
@@ -64,7 +64,7 @@ have its results on FCC trace, not on Norway.
 
 ## Fig.17 (d) data
 ```bash
-cd analysis
+cd Genet/src/emulator/abr/analysis
 python print_each_dim_norway.py
 
 # Output of bitrate, rebuf: ['sim_BBA: bitrate: 1.03% rebuf: 0.07658',
@@ -77,6 +77,6 @@ python print_each_dim_norway.py
 
 ## Put the above output to plot
 ```bash
-cd analysis
+cd Genet/src/emulator/abr/analysis
 python mahi_results_two_dim.py
 ```
