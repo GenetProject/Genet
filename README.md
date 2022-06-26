@@ -176,16 +176,18 @@ Install python dependencies.
 ```bash
 cd pantheon && cd ..
 virtualenv -p python2 pantheon_venv  # create py2 venv for pantheon
-echo "[absolute path]/pantheon" > pantheon_venv/lib/[python version]/site-packages/pantheon.pth
+echo "$(pwd)/pantheon" > pantheon_venv/lib/python2.7/site-packages/pantheon.pth
 source pantheon_venv/bin/activate  # activate py2 venv
 cd pantheon
 ./tools/install_py2_deps.sh  # install apt dependencies
-src/experiments/setup.py --install-deps --schemems "cubic bbr copa vivace aurora vivace_loss vivace_latency"
-src/experiments/setup.py --setup --schemems "cubic bbr copa vivace aurora vivace_loss vivace_latency"
+src/experiments/setup.py --install-deps --schemes "cubic bbr copa vivace aurora vivace_loss vivace_latency"
+src/experiments/setup.py --setup --schemes "cubic bbr copa vivace aurora vivace_loss vivace_latency"
 ```
 
-Download dataset from [here](https://drive.google.com/drive/u/1/folders/19anUdhpYTGQIuyra-dei41s_3Fr_WWxr)
-to ```pantheon``` and ```cd panthon && tar -xf data.tar.gz```.
+Download ```data.tar.gz``` from [here](https://drive.google.com/drive/u/1/folders/19anUdhpYTGQIuyra-dei41s_3Fr_WWxr)
+to your local machine. Then use tools like ```scp``` and ```rsync``` to upload
+```dataset.tar.gz``` to to ```pantheon/``` on the VM 
+and ```cd pantheon && tar -xf data.tar.gz```.
 
 Run the following commands in to emulate.
 Expected time usage: 19hr
@@ -212,8 +214,10 @@ scratch is optional.
 ### CC
 Running pretrained model.
 Expected time usage: 5hr on a VM with 32 vCPUs by sequentially running the
-following scrits.
+following scrits. Please find ```Genet/fig_reproduce/fig18_cc_example.png```.
+
 ```bash
+source genet/bin/activate
 cd Genet
 
 bash src/drivers/cc/run_for_learning_curve.sh
@@ -231,15 +235,15 @@ bash src/drivers/cc/train_cl2.sh
 bash src/drivers/cc/train_cl3.sh
 ```
 
-### ABR
-```bash
-cd Genet
-
-# Train from scratch? run the following commands
-bash src/drivers/abr/train_udr3.sh
-bash src/drivers/abr/train_genet.sh
-bash src/drivers/abr/train_cl1.sh
-```
+<!-- ### ABR -->
+<!-- ```bash -->
+<!-- cd Genet -->
+<!--  -->
+<!-- # Train from scratch? run the following commands -->
+<!-- bash src/drivers/abr/train_udr3.sh -->
+<!-- bash src/drivers/abr/train_genet.sh -->
+<!-- bash src/drivers/abr/train_cl1.sh -->
+<!-- ``` -->
 
 ## FAQ
 1. CUDA driver error
