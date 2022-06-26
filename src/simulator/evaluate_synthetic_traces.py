@@ -35,6 +35,7 @@ def parse_args():
                         # help='congestion control name')
     parser.add_argument('--seed', type=int, default=42, help='seed')
     parser.add_argument('--nproc', type=int, default=16, help='proc cnt')
+    parser.add_argument('--fast', action='store_true', help='fast reproduce')
 
     args, _ = parser.parse_known_args()
     return args
@@ -43,11 +44,16 @@ def parse_args():
 def main():
     args = parse_args()
     dataset = SyntheticDataset.load_from_dir(args.dataset_dir)
-    print(len(dataset))
+    if args.fast:
+        ntraces = 50
+        seeds = range(10, 20, 10)
+    else:
+        ntraces = len(dataset)
+        seeds = range(10, 60, 10)
     save_dirs = [os.path.join(args.save_dir, 'trace_{:05d}'.format(i))
-                 for i in range(len(dataset))]
+                 for i in range(ntraces)]
 
-    for seed in range(10, 60, 10):
+    for seed in seeds:
         step = 720000
         model_path = "models/cc/udr1/seed_{}/model_step_{}.ckpt".format(seed, step)
         udr_save_dirs = [os.path.join(
@@ -55,7 +61,7 @@ def main():
             "step_{}".format(step)) for save_dir in save_dirs]
         test_on_traces(model_path, dataset.traces, udr_save_dirs, args.nproc, 42, False, False)
 
-    for seed in range(10, 60, 10):
+    for seed in seeds:
         step = 720000
         model_path = "models/cc/udr2/seed_{}/model_step_{}.ckpt".format(seed, step)
         genet_save_dirs = [os.path.join(
@@ -63,7 +69,7 @@ def main():
             "step_{}".format(step)) for save_dir in save_dirs]
         test_on_traces(model_path, dataset.traces, genet_save_dirs, args.nproc, 42, False, False)
 
-    for seed in range(10, 60, 10):
+    for seed in seeds:
         step = 720000
         model_path = "models/cc/udr3/seed_{}/model_step_{}.ckpt".format(seed, step)
         genet_save_dirs = [os.path.join(
@@ -71,7 +77,7 @@ def main():
             "step_{}".format(step)) for save_dir in save_dirs]
         test_on_traces(model_path, dataset.traces, genet_save_dirs, args.nproc, 42, False, False)
 
-    for seed in range(10, 60, 10):
+    for seed in seeds:
         bo = 9
         step  = 64800
         model_path = "models/cc/genet_bbr_old/seed_{}/bo_{}/model_step_{}.ckpt".format(seed, bo, step)
