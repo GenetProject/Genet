@@ -77,7 +77,7 @@ def load_summaries_across_traces(log_files: List[str]) -> Tuple[List[float], Lis
     losses = []
     for log_file in log_files:
         if not os.path.exists(log_file):
-            print(log_file, 'does not exist')
+            # print(log_file, 'does not exist')
             continue
         summary = load_summary(log_file)
         rewards.append(summary['pkt_level_reward'])
