@@ -5,7 +5,8 @@
 ### Operating system information
 Ubuntu 18.04. A large VM is preferred, e.g., reproducing Figure 9 CC takes
 about 20 minutes on a VM with 96 vCPUs or 1 hour on a VM with 32 vCPUs. We
-assume a VM with 32 vCPUs is used for the instructions below.
+assume a VM with 32 vCPUs, 64G memory and 32G SSD storage is used for the
+instructions below.
 
 ### Python Version
 The repository is only tested under python3.6.9.
@@ -184,7 +185,7 @@ src/experiments/setup.py --install-deps --schemes "cubic bbr copa vivace aurora 
 src/experiments/setup.py --setup --schemes "cubic bbr copa vivace aurora vivace_loss vivace_latency"
 ```
 
-Download ```data.tar.gz``` from [here](https://drive.google.com/drive/u/1/folders/19anUdhpYTGQIuyra-dei41s_3Fr_WWxr)
+Download ```data.tar.gz``` from [here](https://drive.google.com/file/d/1YpDONu8lgETIHSyUUA-NbPUoZRy5zYbj/view?usp=sharing)
 to your local machine. Then use tools like ```scp``` and ```rsync``` to upload
 ```dataset.tar.gz``` to to ```pantheon/``` on the VM 
 and ```cd pantheon && tar -xf data.tar.gz```.

@@ -11,7 +11,7 @@ Since the full emulation running takes more than a day, the second option is fas
 deactivate  # if there is python venv activated. Otherwise, ignore.
 sudo add-apt-repository universe
 sudo apt-get update
-sudo apt-get -y install mahimahi xvfb chromium-chromedriver python3-pip python3-tk unzip
+sudo apt-get -y install mahimahi xvfb python3-pip python3-tk unzip
 wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt-get -yf install ./google-chrome-stable_current_amd64.deb
 pip3 install virtualenv
