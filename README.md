@@ -36,6 +36,7 @@ bash install.sh
 Python3 Virtual environment is highly recommended.
 [venv](https://docs.python.org/3.7/library/venv.html) only
 ```bash
+cd Genet && cd ..  # make sure the virtual env is at the same level of Genet/
 python3 -m venv genet
 echo "$(pwd)/Genet/src" > genet/lib/python3.6/site-packages/genet.pth
 source genet/bin/activate
@@ -55,10 +56,11 @@ source genet/bin/activate
 - Now the virtual environment is activated.
 
 ### Install python dependency
+Time usage: 2~3min on a VM with 32 vCPUs
 ```bash
 cd Genet
 # activate virtual env
-bash install_python_dependency.sh  # should take 2~3min
+bash install_python_dependency.sh
 ```
 
 ## Unseen synthetic environments (Figure 9)
@@ -68,34 +70,56 @@ environments. Example figures are [here](/fig_reproduce/fig9).
 
 
 ### ABR
+Time usage: 1~2 min on a VM with 32 vCPUs.
+Please find ```fig_reproduce/fig9/fig9_abr.png```
 ```bash
 cd Genet/fig_reproduce/fig9
 bash run.sh
-# Please wait for 5 minutes to let the testing output finish writing.
-# Please find fig_reproduce/fig9/fig9_abr.png
 ```
 
 ### CC
+Please find ```fig_reproduce/fig9/fig9_cc.png```. The result difference may be 
+caused by randomness.
+
+To get a fast version with 1 seed on 50 synthetic traces
+Time usage: 2 min on a VM with 32 vCPUs.
+```bash
+cd Genet # cd into the project root
+python src/simulator/evaluate_synthetic_traces.py \
+  --save-dir results/cc/evaluate_synthetic_dataset \
+  --dataset-dir data/cc/synthetic_dataset \
+  --fast
+python src/plot_scripts/plot_syn_dataset.py
+```
+
+To get a complete version with 5 different seeds on ~500 synthetic traces
 Time usage: 60 min on a VM with 32 vCPUs.
 ```bash
 cd Genet # cd into the project root
-# Evaluate rl1, rl2, rl3, and genet models with 5 different seeds on ~500
-# synthetic traces
 python src/simulator/evaluate_synthetic_traces.py \
   --save-dir results/cc/evaluate_synthetic_dataset \
   --dataset-dir data/cc/synthetic_dataset
-# Please find fig_reproduce/fig9/fig9_cc.png. The result difference may be 
-# caused by randomness.
 python src/plot_scripts/plot_syn_dataset.py
 ```
+
 ### LB
+Time usage: ~10 min on a VM with 32 vCPUs.
+Please find ```fig_reproduce/fig9/fig9_lb.png```
 ```bash
-cd Genet/genet-lib-fig-upload
-python rl_test.py --saved_model="results/testing_model/udr_1/model_ep_49600.ckpt" # example output: [-4.80, 0.07]
-python rl_test.py --saved_model="results/testing_model/udr_2/model_ep_44000.ckpt" # example output: [-3.87, 0.08]
-python rl_test.py --saved_model="results/testing_model/udr_3/model_ep_25600.ckpt" # example output: [-3.57, 0.07]
-python rl_test.py --saved_model="results/testing_model/adr/model_ep_20200.ckpt" # example output: [-3.02, 0.04]
-# Please find fig_reproduce/fig9/fig9_lb.png
+cd Genet/genet-lb-fig-upload
+
+# example output: [-4.80, 0.07]
+python rl_test.py --saved_model="results/testing_model/udr_1/model_ep_49600.ckpt"
+
+# example output: [-3.87, 0.08]
+python rl_test.py --saved_model="results/testing_model/udr_2/model_ep_44000.ckpt"
+
+# example output: [-3.57, 0.07]
+python rl_test.py --saved_model="results/testing_model/udr_3/model_ep_25600.ckpt"
+
+# example output: [-3.02, 0.04]
+python rl_test.py --saved_model="results/testing_model/adr/model_ep_20200.ckpt"
+
 python analysis/fig9_lb.py
 ```
 
