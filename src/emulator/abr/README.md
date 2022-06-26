@@ -8,6 +8,7 @@ Since the full emulation running takes more than a day, the second option is fas
 # Run the full emulation
 ## Install
 ```bash
+deactivate  # if there is python venv activated. Otherwise, ignore.
 sudo add-apt-repository universe
 sudo apt-get update
 sudo apt-get -y install mahimahi xvfb chromium-chromedriver python3-pip python3-tk unzip
@@ -16,6 +17,7 @@ sudo apt-get -yf install ./google-chrome-stable_current_amd64.deb
 pip3 install virtualenv
 
 virtualenv tf_venv
+echo "$(pwd)/Genet/src/emulator/abr" > tf_venv/lib/python3.6/site-packages/abr_emu.pth
 source tf_venv/bin/activate
 
 pip3 install numpy tensorflow==1.15.0 selenium pyvirtualdisplay numba torch tflearn xvfbwrapper
