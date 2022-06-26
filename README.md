@@ -7,6 +7,9 @@ Ubuntu 18.04. A large VM is preferred, e.g., reproducing Figure 9 CC takes
 about 20 minutes on a VM with 96 vCPUs or 1 hour on a VM with 32 vCPUs. We
 assume a VM with 32 vCPUs is used for the instructions below.
 
+### Python Version
+The repository is only tested under python3.6.9.
+
 ### Download the source code
 
 ```bash
@@ -34,7 +37,7 @@ Python3 Virtual environment is highly recommended.
 [venv](https://docs.python.org/3.7/library/venv.html) only
 ```bash
 python3 -m venv genet
-echo "[absolute path]/Genet/src" > genet/lib/[python version]/site-packages/genet.pth
+echo "$(pwd)/Genet/src" > genet/lib/python3.6/site-packages/genet.pth
 source genet/bin/activate
   ```
   <!-- - [virtualenv](https://virtualenv.pypa.io/en/latest/) only -->
