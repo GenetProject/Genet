@@ -16,7 +16,7 @@ wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
 sudo apt-get -yf install ./google-chrome-stable_current_amd64.deb
 pip3 install virtualenv
 
-virtualenv tf_venv
+virtualenv -p python3 tf_venv
 echo "$(pwd)/Genet/src/emulator/abr" > tf_venv/lib/python3.6/site-packages/abr_emu.pth
 source tf_venv/bin/activate
 
