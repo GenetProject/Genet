@@ -18,11 +18,10 @@ git clone https://github.com/GenetProject/Genet.git
 ```
 
 ### Download models
-Please download ```models.tar.gz``` from [here](https://drive.google.com/file/d/1QxMLyffHlox8r6aSpVj37JEQ4_dyb2iN/view?usp=sharing) to your local machine.
-Then use tools like ```scp``` and ```rsync``` to upload ```models.tar.gz``` to
-```Genet/``` folder of the testing VM. 
+Please download ```models.tar.gz``` to ```Genet/```.
 ```bash
 cd Genet
+wget https://genet.blob.core.windows.net/sigcomm22/models.tar.gz
 tar -xf models.tar.gz
 ```
 
@@ -82,8 +81,8 @@ bash run.sh
 Please find ```fig_reproduce/fig9/fig9_cc.png```. The result difference may be 
 caused by randomness.
 
-To get a fast version with 1 seed on 50 synthetic traces, results are slightly
-different but with the correct trend.
+To get a fast and slightly different but with the correct trend,
+the following command run models with 1 seed on 50 synthetic traces, 
 
 Time usage: 2 min on a VM with 32 vCPUs.
 ```bash
@@ -95,7 +94,8 @@ python src/simulator/evaluate_synthetic_traces.py \
 python src/plot_scripts/plot_syn_dataset.py
 ```
 
-To get a complete version with 5 different seeds on ~500 synthetic traces
+To get a complete results,  the following commands run models with 5 different
+seeds on ~500 synthetic traces
 
 Time usage: 60 min on a VM with 32 vCPUs.
 ```bash
@@ -185,10 +185,12 @@ src/experiments/setup.py --install-deps --schemes "cubic bbr copa vivace aurora 
 src/experiments/setup.py --setup --schemes "cubic bbr copa vivace aurora vivace_loss vivace_latency"
 ```
 
-Download ```data.tar.gz``` from [here](https://drive.google.com/file/d/1YpDONu8lgETIHSyUUA-NbPUoZRy5zYbj/view?usp=sharing)
-to your local machine. Then use tools like ```scp``` and ```rsync``` to upload
-```dataset.tar.gz``` to to ```pantheon/``` on the VM 
-and ```cd pantheon && tar -xf data.tar.gz```.
+Download ```data.tar.gz```to ```pantheon/```.
+```bash 
+cd pantheon 
+wget https://genet.blob.core.windows.net/sigcomm22/data.tar.gz
+tar -xf data.tar.gz
+```.
 
 Run the following commands in to emulate.
 Expected time usage: 19hr
@@ -214,6 +216,7 @@ scratch is optional.
 
 ### CC
 Running pretrained model.
+
 Expected time usage: 5hr on a VM with 32 vCPUs by sequentially running the
 following scrits. Please find ```Genet/fig_reproduce/fig18_cc_example.png```.
 
