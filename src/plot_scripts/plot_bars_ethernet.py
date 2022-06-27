@@ -35,11 +35,14 @@ def generalization_test_ethernet():
     df_genet_20 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/genet/seed_20/summary_no_start_effect.csv')
     df_genet_30 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/genet/seed_30/summary_no_start_effect.csv')
 
+    genet_reward = np.mean([df_genet_10['aurora_normalized_reward'].mean(), df_genet_20['aurora_normalized_reward'].mean(), df_genet_30['aurora_normalized_reward'].mean()])
+    genet_reward_err = np.std([df_genet_10['aurora_normalized_reward'].mean(), df_genet_20['aurora_normalized_reward'].mean(), df_genet_30['aurora_normalized_reward'].mean()]) / np.sqrt(3)
+
     df_udr1_10 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr1/seed_10/summary_no_start_effect.csv')
     df_udr1_20 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr1/seed_20/summary_no_start_effect.csv')
     df_udr1_30 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr1/seed_30/summary_no_start_effect.csv')
 
-    udr1_reward = np.mean([df_udr1_10['aurora_normalized_reward'].mean(), df_udr1_30['aurora_normalized_reward'].mean(), df_udr1_30['aurora_normalized_reward'].mean()])
+    udr1_reward = np.mean([df_udr1_10['aurora_normalized_reward'].mean(), df_udr1_20['aurora_normalized_reward'].mean(), df_udr1_30['aurora_normalized_reward'].mean()])
     udr1_reward_err = np.std([df_udr1_10['aurora_normalized_reward'].mean(), df_udr1_30['aurora_normalized_reward'].mean(), df_udr1_30['aurora_normalized_reward'].mean()]) / np.sqrt(3)
 
     df_udr2_10 = pd.read_csv('fig_reproduce/fig13/emu_logs/ethernet/queue500/udr2/seed_10/summary_no_start_effect.csv')
