@@ -49,7 +49,7 @@ bash pensieve/drivers/run_mahimahi_emulation_ADR.sh  --port=8000
 # Replot our emulation results
 ## Fig.17 (c) data
 ```bash
-cd analysis
+cd Genet/src/emulator/abr/analysis
 python print_each_dim_fcc.py
 
 # Output of bitrate, rebuf: ['sim_BBA: bitrate: 1.2% rebuf: 0.05848', 
