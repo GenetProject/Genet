@@ -299,7 +299,7 @@ class Genet:
             if self.bo_only:
                 return
 
-            cmd = "mpiexec -np {nproc} python train_rl.py " \
+            cmd = "mpiexec -np {nproc} python src/simulator/train_rl.py " \
                 "--save-dir {save_dir} --exp-name {exp_name} --seed {seed} " \
                 "--total-timesteps {tot_step} " \
                 "--randomization-range-file {config_file} " \
