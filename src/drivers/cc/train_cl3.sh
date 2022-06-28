@@ -7,12 +7,10 @@ exp_name=cl3
 pretrain_model_path=models/cc/pretrained/pretrained.ckpt
 
 for seed in 10 20 30; do
-    save_dir=${save_dir}/${exp_name}/seed_${seed}
-
     python src/simulator/genet_improved.py \
         --heuristic optimal \
-        --save-dir ${save_dir} \
         --bo-rounds 15 \
+        --save-dir ${save_dir}/${exp_name}/seed_${seed} \
         --seed ${seed} \
         --validation \
         --model-path $pretrain_model_path \
