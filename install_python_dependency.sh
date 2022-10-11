@@ -8,8 +8,8 @@ fi
 
 echo "Install python packages..."
 pip install --upgrade pip --no-cache-dir
-pip install tensorflow-gpu==1.15
-pip install tensorboard==1.15.0
+pip install tensorflow-gpu==2.4.1
+pip install tensorboard==2.4.1
 pip install tensorboard-plugin-wit==1.8.0
 pip install tflearn==0.5.0
 pip install numba==0.53.1

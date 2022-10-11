@@ -286,7 +286,7 @@ class Pensieve(BaseAbr):
                       video_size_file_dir, self.jump_action)))
         for i in range(num_agents):
             agents[i].start()
-        with tf.Session() as sess, \
+        with tf.compat.v1.Session() as sess, \
                 open(os.path.join(save_dir, 'log_train'), 'w', 1) as log_central_file, \
                 open(os.path.join(save_dir, 'log_val'), 'w', 1) as val_log_file:
             log_writer = csv.writer(log_central_file, delimiter='\t', lineterminator='\n')
@@ -309,9 +309,9 @@ class Pensieve(BaseAbr):
             logging.info('actor and critic initialized')
             # summary_ops, summary_vars = a3c.build_summaries()
 
-            sess.run(tf.global_variables_initializer())
+            sess.run(tf.compat.v1.global_variables_initializer())
             # writer = tf.summary.FileWriter(save_dir, sess.graph)  # training monitor
-            saver = tf.train.Saver(max_to_keep=None)  # save neural net parameters
+            saver = tf.compat.v1.train.Saver(max_to_keep=None)  # save neural net parameters
 
             # restore neural net parameters
             if self.model_path:  # nn_model is the path to file

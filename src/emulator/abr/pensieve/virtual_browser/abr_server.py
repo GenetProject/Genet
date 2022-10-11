@@ -280,14 +280,14 @@ def run_abr_server(abr, trace_file, summary_dir, actor_path,
     log_file_path = os.path.join(
         summary_dir, 'log_{}_{}'.format(abr, os.path.basename(trace_file)))
 
-    with tf.Session() as sess ,open( log_file_path ,'wb' ) as log_file:
+    with tf.compat.v1.Session() as sess ,open( log_file_path ,'wb' ) as log_file:
 
         actor = ActorNetwork( sess ,
                               state_dim=[6 ,6] ,action_dim=3 ,
                               bitrate_dim=6)
 
         sess.run( tf.initialize_all_variables() )
-        saver = tf.train.Saver()  # save neural net parameters
+        saver = tf.compat.v1.train.Saver()  # save neural net parameters
 
         # restore neural net parameters
         nn_model = actor_path

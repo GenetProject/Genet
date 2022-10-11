@@ -22,7 +22,7 @@ tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
 class LoadedModel():
 
     def __init__(self, model_path):
-        self.sess = tf.Session()
+        self.sess = tf.compat.v1.Session()
         self.model_path = model_path
         t_start = time.time()
         self.metagraph = tf.saved_model.loader.load(self.sess,

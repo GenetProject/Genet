@@ -58,7 +58,7 @@ def main():
         schemes = ['learn']
 
     # tensorflow session
-    sess = tf.Session()
+    sess = tf.compat.v1.Session()
 
     # store results
     all_performance = {scheme: [] for scheme in schemes}
@@ -73,9 +73,9 @@ def main():
         if scheme == 'learn':
             agents[scheme] = ActorAgent(sess)
             # saver for loading trained model
-            saver = tf.train.Saver(max_to_keep=args.num_saved_models)
+            saver = tf.compat.v1.train.Saver(max_to_keep=args.num_saved_models)
             # initialize parameters
-            sess.run(tf.global_variables_initializer())
+            sess.run(tf.compat.v1.global_variables_initializer())
             # load trained model
             if args.saved_model is not None:
                 print(args.saved_model, "--------------args.saved_model")

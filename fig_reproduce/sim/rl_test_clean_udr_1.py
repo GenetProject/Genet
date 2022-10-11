@@ -12,7 +12,7 @@ from utils.constants import (REBUF_PENALTY, VIDEO_BIT_RATE, CHUNK_TIL_VIDEO_END_
 
 os.environ['CUDA_VISIBLE_DEVICES'] = ''
 
-tf.logging.set_verbosity( tf.logging.ERROR )
+tf.autograph.set_verbosity(3, True )
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 # bit_rate, buffer_size, next_chunk_size, bandwidth_measurement(throughput and time), chunk_til_video_end
@@ -168,15 +168,15 @@ def main():
 
     log_file = open( log_path ,'w' )
 
-    with tf.Session() as sess:
+    with tf.compat.v1.Session() as sess:
 
         actor = a3c.ActorNetwork( sess ,
                                   state_dim=[S_INFO ,args.S_LEN] ,action_dim=args.A_DIM ,
                                   bitrate_dim=args.BITRATE_DIM
                                   )
 
-        sess.run( tf.global_variables_initializer() )
-        saver = tf.train.Saver()  # save neural net parameters
+        sess.run( tf.compat.v1.global_variables_initializer() )
+        saver = tf.compat.v1.train.Saver()  # save neural net parameters
 
         # restore neural net parameters
         if nn_model is not None:  # NN_MODEL is the path to file

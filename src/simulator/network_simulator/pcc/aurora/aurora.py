@@ -145,7 +145,7 @@ class SaveOnBestTrainingRewardCallback(BaseCallback):
             if self.aurora.comm.Get_rank() == 0 and self.val_log_writer is not None:
                 model_path_to_save = os.path.join(self.save_path, "model_step_{}.ckpt".format(int(self.num_timesteps)))
                 with self.model.graph.as_default():
-                    saver = tf.train.Saver()
+                    saver = tf.compat.v1.train.Saver()
                     saver.save(self.model.sess, model_path_to_save)
                 if not self.val_traces:
                     return True
@@ -215,7 +215,7 @@ class Aurora():
                               tensorboard_log=tensorboard_log,
                               n_cpu_tf_sess=1)
             with self.model.graph.as_default():
-                saver = tf.train.Saver()
+                saver = tf.compat.v1.train.Saver()
                 saver.restore(self.model.sess, pretrained_model_path)
             try:
                 self.steps_trained = int(os.path.splitext(

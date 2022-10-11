@@ -118,3 +118,6 @@ __MACOSX
 .ccls-cache
 .ccls
 .idea
+models.tar.gz
+models/*
+fig_reproduce/**/sigcomm_artifact/*

@@ -61,13 +61,13 @@ def main():
         args.queue_shuffle_prob = args.current_value
 
 
-    sess = tf.Session()
+    sess = tf.compat.v1.Session()
 
     actor_agent = ActorAgent( sess )
 
     # initialize parameters
-    sess.run( tf.global_variables_initializer() )
-    saver = tf.train.Saver()
+    sess.run( tf.compat.v1.global_variables_initializer() )
+    saver = tf.compat.v1.train.Saver()
 
     # load trained model
     if args.saved_model is not None:
