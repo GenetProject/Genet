@@ -188,7 +188,7 @@ src/experiments/setup.py --setup --schemes "cubic bbr copa vivace aurora vivace_
 Download ```data.tar.gz```to ```pantheon/```.
 ```bash 
 cd pantheon 
-wget https://genet.blob.core.windows.net/sigcomm22/data.tar.gz
+wget https://www.dropbox.com/s/q5v8s9v8himb5gf/data.tar.gz?dl=0
 tar -xf data.tar.gz
 ```.
 
