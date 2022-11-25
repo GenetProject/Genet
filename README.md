@@ -21,7 +21,7 @@ git clone https://github.com/GenetProject/Genet.git
 Please download ```models.tar.gz``` to ```Genet/```.
 ```bash
 cd Genet
-wget https://genet.blob.core.windows.net/sigcomm22/models.tar.gz
+wget https://www.dropbox.com/s/39x6im0di4c8dos/models.tar.gz?dl=0
 tar -xf models.tar.gz
 ```
 
